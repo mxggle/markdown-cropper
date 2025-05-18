@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Cropper</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Include marked.js for markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Include html2canvas for converting to images -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Markdown Cropper</h1>
+        </header>
+        
+        <div class="main-content">
+            <div class="input-section">
+                <h2>Input</h2>
+                <div class="file-input">
+                    <label for="markdown-file">Upload Markdown File:</label>
+                    <input type="file" id="markdown-file" accept=".md, .markdown, .txt">
+                </div>
+                <div class="or-divider">OR</div>
+                <div class="textarea-input">
+                    <label for="markdown-text">Paste Markdown:</label>
+                    <textarea id="markdown-text" placeholder="Paste your markdown here..."></textarea>
+                </div>
+                <button id="process-btn">Process Markdown</button>
+            </div>
+            
+            <div class="preview-section">
+                <h2>Preview</h2>
+                <div id="markdown-preview" class="markdown-content"></div>
+            </div>
+        </div>
+        
+        <div class="tools-section" style="display: none;">
+            <h2>Tools</h2>
+            
+            <div class="crop-tools">
+                <h3>Crop Points</h3>
+                <p>Click on headings in the preview to add crop points, or use the controls below:</p>
+                
+                <div class="heading-level-selector">
+                    <span>Auto-crop at level: </span>
+                    <button id="h1-level-btn" class="heading-level-btn">H1</button>
+                    <button id="h2-level-btn" class="heading-level-btn">H2</button>
+                    <button id="h3-level-btn" class="heading-level-btn">H3</button>
+                    <button id="clear-level-btn" class="heading-level-btn">Clear</button>
+                </div>
+                
+                <div id="crop-points-container"></div>
+                <button id="add-crop-point">Add Crop Point</button>
+            </div>
+            
+            <div class="watermark-tools">
+                <h3>Watermark</h3>
+                <div class="watermark-input">
+                    <label for="watermark-text">Watermark Text:</label>
+                    <input type="text" id="watermark-text" placeholder="Your watermark">
+                </div>
+                <div class="watermark-options">
+                    <div>
+                        <label for="watermark-color">Color:</label>
+                        <input type="color" id="watermark-color" value="#888888">
+                    </div>
+                    <div>
+                        <label for="watermark-opacity">Opacity:</label>
+                        <input type="range" id="watermark-opacity" min="0" max="1" step="0.1" value="0.3">
+                    </div>
+                    <div>
+                        <label for="watermark-position">Position:</label>
+                        <select id="watermark-position">
+                            <option value="top-left">Top Left</option>
+                            <option value="top-right">Top Right</option>
+                            <option value="bottom-left">Bottom Left</option>
+                            <option value="bottom-right" selected>Bottom Right</option>
+                            <option value="center">Center</option>
+                            <option value="repeat">Repeat Across Page</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="watermark-rotation">Rotation (degrees):</label>
+                        <input type="range" id="watermark-rotation" min="-45" max="45" step="5" value="0">
+                        <span id="rotation-value">0°</span>
+                    </div>
+                </div>
+                <button id="apply-watermark">Apply Watermark</button>
+            </div>
+            
+            <div class="export-tools">
+                <h3>Export</h3>
+                <button id="export-all">Export All Sections</button>
+                <div id="export-sections-container"></div>
+            </div>
+        </div>
+        
+        <div id="results-section" class="results-section" style="display: none;">
+            <h2>Results</h2>
+            <div id="results-container"></div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

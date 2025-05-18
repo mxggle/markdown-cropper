@@ -1,0 +1,673 @@
+document.addEventListener("DOMContentLoaded", () => {
+  // DOM Elements
+  const markdownFileInput = document.getElementById("markdown-file");
+  const markdownTextArea = document.getElementById("markdown-text");
+  const processBtn = document.getElementById("process-btn");
+  const markdownPreview = document.getElementById("markdown-preview");
+  const toolsSection = document.querySelector(".tools-section");
+  const cropPointsContainer = document.getElementById("crop-points-container");
+  const addCropPointBtn = document.getElementById("add-crop-point");
+  const h1LevelBtn = document.getElementById("h1-level-btn");
+  const h2LevelBtn = document.getElementById("h2-level-btn");
+  const h3LevelBtn = document.getElementById("h3-level-btn");
+  const clearLevelBtn = document.getElementById("clear-level-btn");
+  const watermarkText = document.getElementById("watermark-text");
+  const watermarkColor = document.getElementById("watermark-color");
+  const watermarkOpacity = document.getElementById("watermark-opacity");
+  const watermarkPosition = document.getElementById("watermark-position");
+  const watermarkRotation = document.getElementById("watermark-rotation");
+  const rotationValue = document.getElementById("rotation-value");
+  const applyWatermarkBtn = document.getElementById("apply-watermark");
+  const exportAllBtn = document.getElementById("export-all");
+  const exportSectionsContainer = document.getElementById(
+    "export-sections-container"
+  );
+  const resultsSection = document.getElementById("results-section");
+  const resultsContainer = document.getElementById("results-container");
+
+  // State variables
+  let markdownContent = "";
+  let headings = [];
+  let cropPoints = [];
+  let watermarkApplied = false;
+  let activeHeadingLevel = null; // For auto-cropping by heading level
+  let watermarkSettings = {
+    text: "",
+    color: "#888888",
+    opacity: 0.3,
+    position: "bottom-right",
+    rotation: 0,
+  };
+
+  // Initialize marked.js
+  marked.setOptions({
+    breaks: true,
+    gfm: true,
+  });
+
+  // Event Listeners
+  markdownFileInput.addEventListener("change", handleFileUpload);
+  processBtn.addEventListener("click", processMarkdown);
+  addCropPointBtn.addEventListener("click", addCropPoint);
+  h1LevelBtn.addEventListener("click", () => setHeadingLevelCrop(1));
+  h2LevelBtn.addEventListener("click", () => setHeadingLevelCrop(2));
+  h3LevelBtn.addEventListener("click", () => setHeadingLevelCrop(3));
+  clearLevelBtn.addEventListener("click", clearHeadingLevelCrop);
+  applyWatermarkBtn.addEventListener("click", applyWatermark);
+  exportAllBtn.addEventListener("click", exportAllSections);
+
+  // Update rotation value display
+  watermarkRotation.addEventListener("input", () => {
+    rotationValue.textContent = `${watermarkRotation.value}°`;
+  });
+
+  // Functions
+  function handleFileUpload(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      markdownTextArea.value = e.target.result;
+    };
+    reader.readAsText(file);
+  }
+
+  function processMarkdown() {
+    markdownContent = markdownTextArea.value.trim();
+
+    if (!markdownContent) {
+      alert("Please enter or upload markdown content");
+      return;
+    }
+
+    // Render markdown
+    markdownPreview.innerHTML = marked.parse(markdownContent);
+
+    // Find all headings in the rendered markdown
+    findHeadings();
+
+    // Show tools section
+    toolsSection.style.display = "block";
+
+    // Reset crop points and export sections
+    cropPoints = [];
+    activeHeadingLevel = null;
+
+    // Clear active class from all buttons
+    h1LevelBtn.classList.remove("active");
+    h2LevelBtn.classList.remove("active");
+    h3LevelBtn.classList.remove("active");
+
+    // Add default crop point at the beginning
+    addCropPoint();
+
+    // Update export sections
+    updateExportSections();
+  }
+
+  function findHeadings() {
+    headings = [];
+    const headingElements = markdownPreview.querySelectorAll(
+      "h1, h2, h3, h4, h5, h6"
+    );
+
+    // Add beginning of document as first option
+    headings.push({
+      element: markdownPreview.firstChild,
+      text: "Beginning of document",
+      level: 0,
+      index: 0,
+    });
+
+    // Add all headings
+    headingElements.forEach((el, index) => {
+      const level = parseInt(el.tagName.substring(1));
+      headings.push({
+        element: el,
+        text: el.textContent,
+        level: level,
+        index: index + 1,
+      });
+
+      // Add click event and crop indicator to each heading
+      addHeadingClickEvent(el, index + 1);
+    });
+
+    // Add end of document as last option
+    headings.push({
+      element: null,
+      text: "End of document",
+      level: 0,
+      index: headings.length,
+    });
+  }
+
+  function addHeadingClickEvent(headingElement, headingIndex) {
+    // Add crop indicator
+    const cropIndicator = document.createElement("span");
+    cropIndicator.className = "crop-indicator";
+    cropIndicator.innerHTML = "✂️";
+    cropIndicator.title = "Click to add crop point";
+    headingElement.style.position = "relative";
+    headingElement.appendChild(cropIndicator);
+
+    // Add click event to heading
+    headingElement.addEventListener("click", (e) => {
+      // Add crop point at this heading
+      addCropPointAtHeading(headingIndex);
+      e.stopPropagation();
+    });
+  }
+
+  function addCropPointAtHeading(headingIndex) {
+    // Check if this crop point already exists
+    const existingPoint = cropPoints.find(
+      (point) => point.headingIndex === headingIndex
+    );
+    if (existingPoint) {
+      // Remove it instead
+      const pointIndex = cropPoints.indexOf(existingPoint);
+      removeCropPoint(pointIndex);
+      return;
+    }
+
+    // Add the crop point
+    cropPoints.push({
+      headingIndex: headingIndex,
+    });
+
+    // Update the UI
+    updateCropPointsUI();
+    updateExportSections();
+
+    // Highlight the heading
+    if (headingIndex > 0 && headingIndex < headings.length - 1) {
+      const heading = headings[headingIndex].element;
+      heading.classList.add("crop-point-active");
+    }
+  }
+
+  function updateCropPointsUI() {
+    // Clear the container
+    cropPointsContainer.innerHTML = "";
+
+    // Sort crop points by heading index
+    cropPoints.sort((a, b) => a.headingIndex - b.headingIndex);
+
+    // Add each crop point to the UI
+    cropPoints.forEach((point, index) => {
+      const cropPointDiv = document.createElement("div");
+      cropPointDiv.className = "crop-point";
+      cropPointDiv.innerHTML = `
+                <select id="crop-point-${index}" class="crop-point-select">
+                    ${headings
+                      .map((h, i) => {
+                        const indent = "&nbsp;".repeat(h.level * 2);
+                        return `<option value="${i}" ${
+                          point.headingIndex === i ? "selected" : ""
+                        }>${indent}${h.text}</option>`;
+                      })
+                      .join("")}
+                </select>
+                <button class="remove-crop-point" data-index="${index}">Remove</button>
+            `;
+
+      cropPointsContainer.appendChild(cropPointDiv);
+
+      // Add event listener to the remove button
+      const removeBtn = cropPointDiv.querySelector(".remove-crop-point");
+      removeBtn.addEventListener("click", (e) => {
+        const index = parseInt(e.target.getAttribute("data-index"));
+        removeCropPoint(index);
+      });
+
+      // Add event listener to the select
+      const select = cropPointDiv.querySelector(".crop-point-select");
+      select.addEventListener("change", (e) => {
+        const newHeadingIndex = parseInt(e.target.value);
+        point.headingIndex = newHeadingIndex;
+        updateExportSections();
+        updateHeadingHighlights();
+      });
+    });
+  }
+
+  function updateHeadingHighlights() {
+    // Clear all highlights
+    headings.forEach((heading) => {
+      if (heading.element) {
+        heading.element.classList.remove("crop-point-active");
+      }
+    });
+
+    // Add highlights to active crop points
+    cropPoints.forEach((point) => {
+      const heading = headings[point.headingIndex];
+      if (heading && heading.element) {
+        heading.element.classList.add("crop-point-active");
+      }
+    });
+  }
+
+  function setHeadingLevelCrop(level) {
+    // Clear active class from all buttons
+    h1LevelBtn.classList.remove("active");
+    h2LevelBtn.classList.remove("active");
+    h3LevelBtn.classList.remove("active");
+
+    // If we're toggling the same level, clear it
+    if (activeHeadingLevel === level) {
+      activeHeadingLevel = null;
+      clearHeadingLevelCrop();
+      return;
+    }
+
+    // Set the active level
+    activeHeadingLevel = level;
+
+    // Add active class to the selected button
+    if (level === 1) h1LevelBtn.classList.add("active");
+    if (level === 2) h2LevelBtn.classList.add("active");
+    if (level === 3) h3LevelBtn.classList.add("active");
+
+    // Clear existing crop points
+    cropPoints = [];
+
+    // Add beginning of document
+    cropPoints.push({
+      headingIndex: 0,
+    });
+
+    // Add crop points at all headings of the selected level
+    headings.forEach((heading, index) => {
+      if (heading.level === level) {
+        cropPoints.push({
+          headingIndex: index,
+        });
+      }
+    });
+
+    // Update UI
+    updateCropPointsUI();
+    updateExportSections();
+    updateHeadingHighlights();
+  }
+
+  function clearHeadingLevelCrop() {
+    // Clear active class from all buttons
+    h1LevelBtn.classList.remove("active");
+    h2LevelBtn.classList.remove("active");
+    h3LevelBtn.classList.remove("active");
+
+    activeHeadingLevel = null;
+
+    // Clear all crop points except the first one (beginning of document)
+    cropPoints = [
+      {
+        headingIndex: 0,
+      },
+    ];
+
+    // Update UI
+    updateCropPointsUI();
+    updateExportSections();
+    updateHeadingHighlights();
+  }
+
+  function addCropPoint() {
+    // Add a new crop point at the beginning of document
+    addCropPointAtHeading(0);
+  }
+
+  function removeCropPoint(index) {
+    // Get the heading index before removing
+    const headingIndex = cropPoints[index]?.headingIndex;
+
+    // Remove from array
+    cropPoints.splice(index, 1);
+
+    // Update UI
+    updateCropPointsUI();
+    updateExportSections();
+
+    // Remove highlight from the heading
+    if (
+      headingIndex !== undefined &&
+      headingIndex > 0 &&
+      headingIndex < headings.length - 1
+    ) {
+      const heading = headings[headingIndex].element;
+      if (heading) {
+        heading.classList.remove("crop-point-active");
+      }
+    }
+  }
+
+  function updateExportSections() {
+    // Ensure we have at least one crop point
+    if (cropPoints.length === 0) {
+      cropPoints.push({
+        headingIndex: 0,
+      });
+      updateCropPointsUI();
+    }
+
+    // Sort crop points by heading index
+    cropPoints.sort((a, b) => a.headingIndex - b.headingIndex);
+
+    // Update export sections
+    exportSectionsContainer.innerHTML = "";
+
+    // Create sections based on crop points
+    for (let i = 0; i < cropPoints.length - 1; i++) {
+      const startHeadingIndex = cropPoints[i].headingIndex;
+      const endHeadingIndex = cropPoints[i + 1].headingIndex;
+
+      const startHeading = headings[startHeadingIndex];
+      const endHeading = headings[endHeadingIndex];
+
+      const sectionDiv = document.createElement("div");
+      sectionDiv.className = "export-section";
+      sectionDiv.innerHTML = `
+                <div class="export-section-name">
+                    Section ${i + 1}: ${startHeading.text} to ${endHeading.text}
+                </div>
+                <button class="export-section-btn" data-start="${startHeadingIndex}" data-end="${endHeadingIndex}">
+                    Export This Section
+                </button>
+            `;
+
+      exportSectionsContainer.appendChild(sectionDiv);
+
+      // Add event listener to export button
+      const exportBtn = sectionDiv.querySelector(".export-section-btn");
+      exportBtn.addEventListener("click", (e) => {
+        const start = parseInt(e.target.getAttribute("data-start"));
+        const end = parseInt(e.target.getAttribute("data-end"));
+        exportSection(start, end);
+      });
+    }
+  }
+
+  function applyWatermark() {
+    // Get watermark settings
+    watermarkSettings = {
+      text: watermarkText.value,
+      color: watermarkColor.value,
+      opacity: parseFloat(watermarkOpacity.value),
+      position: watermarkPosition.value,
+      rotation: parseInt(watermarkRotation.value),
+    };
+
+    // Apply watermark to preview
+    if (watermarkSettings.text) {
+      watermarkApplied = true;
+      showWatermark(markdownPreview);
+      //   alert("Watermark applied! It will be included in exported images.");
+    } else {
+      alert("Please enter watermark text");
+    }
+  }
+
+  function showWatermark(container) {
+    // Remove any existing watermarks
+    const existingWatermarks = container.querySelectorAll(
+      ".watermark, .watermark-container"
+    );
+    existingWatermarks.forEach((el) => el.remove());
+
+    // Apply rotation to the watermark text
+    const rotationStyle = `rotate(${watermarkSettings.rotation}deg)`;
+
+    // Handle repeating watermark differently
+    if (watermarkSettings.position === "repeat") {
+      // Create a container for the repeating watermarks
+      const watermarkContainer = document.createElement("div");
+      watermarkContainer.className = "watermark-container";
+      watermarkContainer.style.position = "absolute";
+      watermarkContainer.style.top = "0";
+      watermarkContainer.style.left = "0";
+      watermarkContainer.style.width = "100%";
+      watermarkContainer.style.height = "100%";
+      watermarkContainer.style.overflow = "hidden";
+      watermarkContainer.style.pointerEvents = "none";
+      watermarkContainer.style.zIndex = "1000";
+
+      // Get the actual dimensions including scrollable area
+      const containerWidth = container.offsetWidth || 750;
+      // For scrollHeight, we need the full scrollable height, not just the visible part
+      const containerHeight = container.scrollHeight || 1200;
+
+      // Set the container to cover the entire scrollable area
+      watermarkContainer.style.width = `${containerWidth}px`;
+      watermarkContainer.style.height = `${containerHeight}px`;
+      watermarkContainer.style.position = "absolute";
+      watermarkContainer.style.top = "0";
+      watermarkContainer.style.left = "0";
+
+      // Create watermarks in a grid pattern covering the entire scrollable content
+      const spacing = 150; // Space between watermarks
+      for (let y = 0; y < containerHeight; y += spacing) {
+        for (let x = 0; x < containerWidth; x += spacing) {
+          const watermark = document.createElement("div");
+          watermark.className = "watermark";
+          watermark.textContent = watermarkSettings.text;
+          watermark.style.position = "absolute";
+          watermark.style.left = `${x}px`;
+          watermark.style.top = `${y}px`;
+          watermark.style.color = watermarkSettings.color;
+          watermark.style.opacity = 0.1;
+          watermark.style.fontSize = "24px";
+          watermark.style.fontWeight = "bold";
+          watermark.style.transform = rotationStyle;
+          watermark.style.whiteSpace = "nowrap";
+          watermarkContainer.appendChild(watermark);
+        }
+      }
+
+      container.classList.add("watermarked");
+      container.appendChild(watermarkContainer);
+      return;
+    }
+
+    // For non-repeating watermarks, create a single watermark
+    const watermark = document.createElement("div");
+    watermark.className = "watermark";
+    watermark.textContent = watermarkSettings.text;
+    watermark.style.color = watermarkSettings.color;
+    watermark.style.opacity = watermarkSettings.opacity;
+    watermark.style.fontSize = "24px";
+    watermark.style.fontWeight = "bold";
+    watermark.style.padding = "10px";
+    watermark.style.whiteSpace = "nowrap";
+
+    // Position the watermark
+    switch (watermarkSettings.position) {
+      case "top-left":
+        watermark.style.top = "10px";
+        watermark.style.left = "10px";
+        watermark.style.transform = rotationStyle;
+        break;
+      case "top-right":
+        watermark.style.top = "10px";
+        watermark.style.right = "10px";
+        watermark.style.transform = rotationStyle;
+        break;
+      case "bottom-left":
+        watermark.style.bottom = "10px";
+        watermark.style.left = "10px";
+        watermark.style.transform = rotationStyle;
+        break;
+      case "bottom-right":
+        watermark.style.bottom = "10px";
+        watermark.style.right = "10px";
+        watermark.style.transform = rotationStyle;
+        break;
+      case "center":
+        watermark.style.top = "50%";
+        watermark.style.left = "50%";
+        watermark.style.transform = `translate(-50%, -50%) ${rotationStyle}`;
+        break;
+    }
+
+    // Add watermark to container
+    container.classList.add("watermarked");
+    container.appendChild(watermark);
+  }
+
+  function exportAllSections() {
+    resultsSection.style.display = "block";
+    resultsContainer.innerHTML = "";
+
+    // Export each section
+    for (let i = 0; i < cropPoints.length - 1; i++) {
+      const startHeadingIndex = cropPoints[i].headingIndex;
+      const endHeadingIndex = cropPoints[i + 1].headingIndex;
+      exportSection(startHeadingIndex, endHeadingIndex);
+    }
+  }
+
+  function exportSection(startHeadingIndex, endHeadingIndex) {
+    const startHeading = headings[startHeadingIndex];
+    const endHeading = headings[endHeadingIndex];
+
+    // Extract the markdown content between the crop points
+    const sectionMarkdown = extractContentBetweenHeadings(
+      startHeadingIndex,
+      endHeadingIndex
+    );
+
+    // Create a temporary container for rendering
+    const tempContainer = document.createElement("div");
+    tempContainer.className = "markdown-content";
+    tempContainer.style.padding = "20px 40px";
+    tempContainer.style.background = "#fff";
+    // tempContainer.style.border = "1px solid #ddd";
+    // tempContainer.style.borderRadius = "5px";
+    tempContainer.style.width = "700px";
+    tempContainer.style.position = "absolute";
+    tempContainer.style.left = "-9999px";
+    tempContainer.style.overflow = "visible";
+    tempContainer.style.height = "auto";
+
+    // Render the markdown content
+    tempContainer.innerHTML = marked.parse(sectionMarkdown);
+    console.log(tempContainer.innerHTML);
+    // Add watermark if applied
+    if (watermarkApplied) {
+      showWatermark(tempContainer);
+    }
+
+    // Add to document temporarily (needed for html2canvas)
+    document.body.appendChild(tempContainer);
+
+    // Convert to image
+    html2canvas(tempContainer, {
+      backgroundColor: "#ffffff",
+      scale: 2, // Higher quality
+      logging: false,
+      width: 750,
+      height: tempContainer.offsetHeight + 20,
+      windowWidth: 750,
+      onclone: function (clonedDoc) {
+        const clonedElement = clonedDoc.body.querySelector(".markdown-content");
+        if (clonedElement) {
+          clonedElement.style.width = "750px";
+          clonedElement.style.height = "auto";
+          clonedElement.style.overflow = "visible";
+        }
+      },
+    }).then((canvas) => {
+      // Remove temp container
+      document.body.removeChild(tempContainer);
+
+      // Create result item
+      const resultItem = document.createElement("div");
+      resultItem.className = "result-item";
+
+      // Create section name
+      const sectionName = document.createElement("div");
+      sectionName.className = "export-section-name";
+      sectionName.textContent = `${startHeading.text} to ${endHeading.text}`;
+
+      // Add canvas
+      canvas.style.maxWidth = "100%";
+
+      // Create download button
+      const downloadBtn = document.createElement("button");
+      downloadBtn.textContent = "Download PNG";
+      downloadBtn.addEventListener("click", () => {
+        const link = document.createElement("a");
+        link.download = `markdown-section-${startHeadingIndex}-${endHeadingIndex}.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      });
+
+      // Add to result item
+      resultItem.appendChild(sectionName);
+      resultItem.appendChild(canvas);
+      resultItem.appendChild(downloadBtn);
+
+      // Add to results container
+      resultsContainer.appendChild(resultItem);
+
+      // Show results section
+      resultsSection.style.display = "block";
+
+      // Scroll to results
+      resultsSection.scrollIntoView({ behavior: "smooth" });
+    });
+  }
+
+  function extractContentBetweenHeadings(startHeadingIndex, endHeadingIndex) {
+    // Split the original markdown content by lines
+    const lines = markdownContent.split("\n");
+
+    // Find the line numbers where our headings are located
+    let startLine = 0;
+    let endLine = lines.length;
+
+    // If not starting from the beginning, find the line of the start heading
+    if (startHeadingIndex > 0) {
+      const headingText = headings[startHeadingIndex].text;
+      const headingLevel = headings[startHeadingIndex].level;
+      const headingPrefix = "#".repeat(headingLevel) + " ";
+
+      // Find the line that contains this heading
+      for (let i = 0; i < lines.length; i++) {
+        if (
+          lines[i].trim().startsWith(headingPrefix) &&
+          lines[i].includes(headingText)
+        ) {
+          startLine = i;
+          break;
+        }
+      }
+    }
+
+    // If not ending at the end, find the line of the end heading
+    if (endHeadingIndex < headings.length - 1) {
+      const headingText = headings[endHeadingIndex].text;
+      const headingLevel = headings[endHeadingIndex].level;
+      const headingPrefix = "#".repeat(headingLevel) + " ";
+
+      // Find the line that contains this heading
+      for (let i = startLine + 1; i < lines.length; i++) {
+        if (
+          lines[i].trim().startsWith(headingPrefix) &&
+          lines[i].includes(headingText)
+        ) {
+          endLine = i;
+          break;
+        }
+      }
+    }
+
+    // Extract the lines between start and end
+    const sectionLines = lines.slice(startLine, endLine);
+    console.log(sectionLines);
+    // Join the lines back into a single string
+    return sectionLines.join("\n");
+  }
+});
