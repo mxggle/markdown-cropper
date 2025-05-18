@@ -1,0 +1,797 @@
+/* Markdown Themes for Social Media Sharing
+ * 5 Beautiful themes inspired by popular platforms
+ */
+
+/* Base styles for all themes */
+.markdown-content {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    line-height: 1.6;
+    padding: 25px;
+    border-radius: 8px;
+    max-width: 800px;
+    margin: 0 auto;
+    transition: all 0.3s ease;
+}
+
+/* Common elements styling */
+.markdown-content img {
+    max-width: 100%;
+    border-radius: 4px;
+    margin: 1em 0;
+}
+
+.markdown-content blockquote {
+    padding: 10px 20px;
+    margin: 20px 0;
+    border-radius: 4px;
+}
+
+.markdown-content code {
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 85%;
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+}
+
+.markdown-content pre {
+    padding: 16px;
+    overflow: auto;
+    border-radius: 6px;
+    margin: 16px 0;
+}
+
+.markdown-content pre code {
+    background: transparent;
+    padding: 0;
+    white-space: pre;
+    font-size: 85%;
+}
+
+.markdown-content table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px 0;
+}
+
+.markdown-content table th,
+.markdown-content table td {
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.markdown-content hr {
+    height: 1px;
+    margin: 24px 0;
+    background-color: currentColor;
+    border: 0;
+    opacity: 0.2;
+}
+
+/* Theme 1: Twitter/X Inspired */
+.theme-twitter {
+    background-color: #ffffff;
+    color: #0f1419;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.theme-twitter h1,
+.theme-twitter h2,
+.theme-twitter h3,
+.theme-twitter h4,
+.theme-twitter h5,
+.theme-twitter h6 {
+    color: #0f1419;
+    font-weight: 700;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+.theme-twitter h1 {
+    font-size: 2em;
+    border-bottom: 1px solid #e6ecf0;
+    padding-bottom: 0.3em;
+}
+
+.theme-twitter h2 {
+    font-size: 1.5em;
+}
+
+.theme-twitter a {
+    color: #1da1f2;
+    text-decoration: none;
+}
+
+.theme-twitter a:hover {
+    text-decoration: underline;
+}
+
+.theme-twitter blockquote {
+    border-left: 4px solid #1da1f2;
+    background-color: #f8f9fa;
+}
+
+.theme-twitter code {
+    background-color: #f8f9fa;
+    color: #0f1419;
+}
+
+.theme-twitter pre {
+    background-color: #f8f9fa;
+}
+
+.theme-twitter table th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #e6ecf0;
+}
+
+.theme-twitter table td {
+    border-bottom: 1px solid #e6ecf0;
+}
+
+/* Theme 2: LinkedIn Inspired */
+.theme-linkedin {
+    background-color: #f3f6f8;
+    color: #333333;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+.theme-linkedin h1,
+.theme-linkedin h2,
+.theme-linkedin h3,
+.theme-linkedin h4,
+.theme-linkedin h5,
+.theme-linkedin h6 {
+    color: #0a66c2;
+    font-weight: 600;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+.theme-linkedin h1 {
+    font-size: 2em;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 0.3em;
+}
+
+.theme-linkedin h2 {
+    font-size: 1.5em;
+}
+
+.theme-linkedin a {
+    color: #0a66c2;
+    text-decoration: none;
+}
+
+.theme-linkedin a:hover {
+    text-decoration: underline;
+}
+
+.theme-linkedin blockquote {
+    border-left: 4px solid #0a66c2;
+    background-color: #ffffff;
+}
+
+.theme-linkedin code {
+    background-color: #ffffff;
+    color: #333333;
+}
+
+.theme-linkedin pre {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+}
+
+.theme-linkedin table th {
+    background-color: #ffffff;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.theme-linkedin table td {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+/* Theme 3: Medium Inspired */
+.theme-medium {
+    background-color: #ffffff;
+    color: rgba(0, 0, 0, 0.84);
+    font-family: 'Charter', 'Georgia', serif;
+    line-height: 1.8;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.theme-medium h1,
+.theme-medium h2,
+.theme-medium h3,
+.theme-medium h4,
+.theme-medium h5,
+.theme-medium h6 {
+    color: rgba(0, 0, 0, 0.84);
+    font-weight: 700;
+    margin-top: 2em;
+    margin-bottom: 0.7em;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.theme-medium h1 {
+    font-size: 2.25em;
+    letter-spacing: -0.022em;
+}
+
+.theme-medium h2 {
+    font-size: 1.75em;
+    letter-spacing: -0.019em;
+}
+
+.theme-medium p {
+    margin-bottom: 1.5em;
+    font-size: 1.1em;
+}
+
+.theme-medium a {
+    color: #03a87c;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(3, 168, 124, 0.3);
+}
+
+.theme-medium a:hover {
+    border-bottom: 1px solid #03a87c;
+}
+
+.theme-medium blockquote {
+    border-left: 3px solid rgba(0, 0, 0, 0.84);
+    padding-left: 20px;
+    margin-left: -23px;
+    font-style: italic;
+    background-color: transparent;
+}
+
+.theme-medium code {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: rgba(0, 0, 0, 0.84);
+}
+
+.theme-medium pre {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.theme-medium table th {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.theme-medium table td {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+/* Theme 4: GitHub Inspired */
+.theme-github {
+    background-color: #ffffff;
+    color: #24292e;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+}
+
+.theme-github h1,
+.theme-github h2,
+.theme-github h3,
+.theme-github h4,
+.theme-github h5,
+.theme-github h6 {
+    color: #24292e;
+    font-weight: 600;
+    margin-top: 24px;
+    margin-bottom: 16px;
+}
+
+.theme-github h1 {
+    font-size: 2em;
+    border-bottom: 1px solid #eaecef;
+    padding-bottom: 0.3em;
+}
+
+.theme-github h2 {
+    font-size: 1.5em;
+    border-bottom: 1px solid #eaecef;
+    padding-bottom: 0.3em;
+}
+
+.theme-github a {
+    color: #0366d6;
+    text-decoration: none;
+}
+
+.theme-github a:hover {
+    text-decoration: underline;
+}
+
+.theme-github blockquote {
+    border-left: 4px solid #dfe2e5;
+    color: #6a737d;
+    padding: 0 1em;
+}
+
+.theme-github code {
+    background-color: rgba(27, 31, 35, 0.05);
+    color: #24292e;
+    border-radius: 3px;
+}
+
+.theme-github pre {
+    background-color: #f6f8fa;
+    border-radius: 3px;
+}
+
+.theme-github table th {
+    background-color: #f6f8fa;
+    border: 1px solid #dfe2e5;
+}
+
+.theme-github table td {
+    border: 1px solid #dfe2e5;
+}
+
+/* Theme 5: Dark Mode (Discord/Slack Inspired) */
+.theme-dark {
+    background-color: #36393f;
+    color: #dcddde;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.theme-dark h1,
+.theme-dark h2,
+.theme-dark h3,
+.theme-dark h4,
+.theme-dark h5,
+.theme-dark h6 {
+    color: #ffffff;
+    font-weight: 600;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+.theme-dark h1 {
+    font-size: 2em;
+    border-bottom: 1px solid #4f545c;
+    padding-bottom: 0.3em;
+}
+
+.theme-dark h2 {
+    font-size: 1.5em;
+    border-bottom: 1px solid #4f545c;
+    padding-bottom: 0.3em;
+}
+
+.theme-dark a {
+    color: #00b0f4;
+    text-decoration: none;
+}
+
+.theme-dark a:hover {
+    text-decoration: underline;
+}
+
+.theme-dark blockquote {
+    border-left: 4px solid #4f545c;
+    background-color: #2f3136;
+}
+
+.theme-dark code {
+    background-color: #2f3136;
+    color: #dcddde;
+}
+
+.theme-dark pre {
+    background-color: #2f3136;
+}
+
+.theme-dark table th {
+    background-color: #2f3136;
+    border-bottom: 2px solid #4f545c;
+}
+
+.theme-dark table td {
+    border-bottom: 1px solid #4f545c;
+}
+
+/* Theme 6: Pinterest Inspired */
+.theme-pinterest {
+    background-color: #ffffff;
+    color: #333333;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    border-radius: 16px;
+}
+
+.theme-pinterest h1,
+.theme-pinterest h2,
+.theme-pinterest h3,
+.theme-pinterest h4,
+.theme-pinterest h5,
+.theme-pinterest h6 {
+    color: #e60023;
+    font-weight: 700;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+.theme-pinterest h1 {
+    font-size: 1.8em;
+    text-align: center;
+}
+
+.theme-pinterest h2 {
+    font-size: 1.5em;
+    text-align: center;
+}
+
+.theme-pinterest p {
+    margin-bottom: 1.2em;
+    font-size: 1em;
+}
+
+.theme-pinterest a {
+    color: #e60023;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.theme-pinterest a:hover {
+    text-decoration: underline;
+}
+
+.theme-pinterest blockquote {
+    border-left: 4px solid #e60023;
+    background-color: #f9f9f9;
+    padding: 15px;
+    font-style: italic;
+}
+
+.theme-pinterest code {
+    background-color: #f9f9f9;
+    color: #e60023;
+    border-radius: 4px;
+}
+
+.theme-pinterest pre {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+.theme-pinterest img {
+    border-radius: 16px;
+}
+
+.theme-pinterest table th {
+    background-color: #f9f9f9;
+    border-bottom: 2px solid #e6e6e6;
+}
+
+.theme-pinterest table td {
+    border-bottom: 1px solid #e6e6e6;
+}
+
+/* Theme 7: Instagram Inspired */
+.theme-instagram {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    background-color: #ffffff;
+    color: #262626;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    padding: 30px;
+    border-radius: 3px;
+}
+
+.theme-instagram::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(to right, #fcaf45, #fd1d1d, #833ab4);
+    border-radius: 3px 3px 0 0;
+}
+
+.theme-instagram h1,
+.theme-instagram h2,
+.theme-instagram h3,
+.theme-instagram h4,
+.theme-instagram h5,
+.theme-instagram h6 {
+    color: #262626;
+    font-weight: 600;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+.theme-instagram h1 {
+    font-size: 1.8em;
+}
+
+.theme-instagram h2 {
+    font-size: 1.5em;
+}
+
+.theme-instagram p {
+    margin-bottom: 1.2em;
+    font-size: 1em;
+    line-height: 1.5;
+}
+
+.theme-instagram a {
+    color: #0095f6;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.theme-instagram a:hover {
+    color: #00376b;
+}
+
+.theme-instagram blockquote {
+    border-left: 4px solid #0095f6;
+    background-color: #fafafa;
+    padding: 15px;
+}
+
+.theme-instagram code {
+    background-color: #fafafa;
+    color: #262626;
+    border-radius: 3px;
+}
+
+.theme-instagram pre {
+    background-color: #fafafa;
+    border-radius: 3px;
+}
+
+.theme-instagram table th {
+    background-color: #fafafa;
+    border-bottom: 2px solid #dbdbdb;
+}
+
+.theme-instagram table td {
+    border-bottom: 1px solid #dbdbdb;
+}
+
+/* Theme 8: Apple Notes Inspired */
+.theme-apple-notes {
+    background-color: #f7f7f5;
+    color: #1c1c1e;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro', 'SF Pro Text', sans-serif;
+    line-height: 1.5;
+    border-radius: 6px;
+    border: 1px solid #e2e2e2;
+}
+
+.theme-apple-notes h1,
+.theme-apple-notes h2,
+.theme-apple-notes h3,
+.theme-apple-notes h4,
+.theme-apple-notes h5,
+.theme-apple-notes h6 {
+    color: #1c1c1e;
+    font-weight: 600;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+.theme-apple-notes h1 {
+    font-size: 1.8em;
+}
+
+.theme-apple-notes h2 {
+    font-size: 1.5em;
+}
+
+.theme-apple-notes p {
+    margin-bottom: 1em;
+    font-size: 1em;
+    line-height: 1.5;
+}
+
+.theme-apple-notes a {
+    color: #007aff;
+    text-decoration: none;
+}
+
+.theme-apple-notes a:hover {
+    text-decoration: underline;
+}
+
+.theme-apple-notes blockquote {
+    border-left: 4px solid #c7c7cc;
+    background-color: #f2f2f7;
+    padding: 10px 15px;
+    color: #636366;
+}
+
+.theme-apple-notes code {
+    background-color: #f2f2f7;
+    color: #1c1c1e;
+    border-radius: 4px;
+    font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+}
+
+.theme-apple-notes pre {
+    background-color: #f2f2f7;
+    border-radius: 4px;
+}
+
+.theme-apple-notes table th {
+    background-color: #f2f2f7;
+    border-bottom: 1px solid #c7c7cc;
+}
+
+.theme-apple-notes table td {
+    border-bottom: 1px solid #e2e2e2;
+}
+
+/* Theme 9: Notion Inspired */
+.theme-notion {
+    background-color: #ffffff;
+    color: #37352f;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, sans-serif;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
+.theme-notion h1,
+.theme-notion h2,
+.theme-notion h3,
+.theme-notion h4,
+.theme-notion h5,
+.theme-notion h6 {
+    color: #37352f;
+    font-weight: 600;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+.theme-notion h1 {
+    font-size: 2em;
+    margin-top: 0.5em;
+}
+
+.theme-notion h2 {
+    font-size: 1.5em;
+}
+
+.theme-notion h3 {
+    font-size: 1.25em;
+}
+
+.theme-notion p {
+    margin-bottom: 1em;
+    font-size: 1em;
+    line-height: 1.5;
+}
+
+.theme-notion a {
+    color: #0b6bcb;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(11, 107, 203, 0.3);
+}
+
+.theme-notion a:hover {
+    border-bottom: 1px solid #0b6bcb;
+}
+
+.theme-notion blockquote {
+    border-left: 3px solid #e1e1e0;
+    background-color: #f7f6f3;
+    padding: 16px 16px 16px 12px;
+    color: #37352f;
+}
+
+.theme-notion code {
+    background-color: #f7f6f3;
+    color: #eb5757;
+    border-radius: 3px;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    padding: 0.2em 0.4em;
+}
+
+.theme-notion pre {
+    background-color: #f7f6f3;
+    border-radius: 3px;
+}
+
+.theme-notion table th {
+    background-color: #f7f6f3;
+    border-bottom: 1px solid #e1e1e0;
+    padding: 6px 12px;
+}
+
+.theme-notion table td {
+    border-bottom: 1px solid #e1e1e0;
+    padding: 6px 12px;
+}
+
+/* Theme 10: Retro Terminal */
+.theme-terminal {
+    background-color: #0c0c0c;
+    color: #33ff33;
+    box-shadow: 0 0 10px rgba(51, 255, 51, 0.2);
+    font-family: 'Courier New', Courier, monospace;
+    line-height: 1.4;
+    border-radius: 0;
+    text-shadow: 0 0 5px rgba(51, 255, 51, 0.5);
+    padding: 30px;
+}
+
+.theme-terminal::before {
+    content: "$ markdown_viewer v1.0 >";
+    display: block;
+    margin-bottom: 20px;
+    color: #33ff33;
+    font-weight: bold;
+}
+
+.theme-terminal h1,
+.theme-terminal h2,
+.theme-terminal h3,
+.theme-terminal h4,
+.theme-terminal h5,
+.theme-terminal h6 {
+    color: #33ff33;
+    font-weight: bold;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    text-transform: uppercase;
+}
+
+.theme-terminal h1 {
+    font-size: 1.8em;
+    border-bottom: 1px solid #33ff33;
+    padding-bottom: 0.3em;
+}
+
+.theme-terminal h2 {
+    font-size: 1.5em;
+}
+
+.theme-terminal p {
+    margin-bottom: 1em;
+}
+
+.theme-terminal a {
+    color: #00aaff;
+    text-decoration: none;
+    border-bottom: 1px dashed #00aaff;
+}
+
+.theme-terminal a:hover {
+    color: #ffffff;
+    border-bottom: 1px solid #ffffff;
+}
+
+.theme-terminal blockquote {
+    border-left: 4px solid #33ff33;
+    background-color: rgba(51, 255, 51, 0.1);
+    padding: 10px 15px;
+}
+
+.theme-terminal code {
+    background-color: rgba(51, 255, 51, 0.1);
+    color: #ff33ff;
+    border-radius: 0;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.theme-terminal pre {
+    background-color: rgba(51, 255, 51, 0.1);
+    border: 1px solid #33ff33;
+    border-radius: 0;
+}
+
+.theme-terminal table th {
+    background-color: rgba(51, 255, 51, 0.1);
+    border-bottom: 2px solid #33ff33;
+}
+
+.theme-terminal table td {
+    border-bottom: 1px solid rgba(51, 255, 51, 0.3);
+}

@@ -5,10 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Markdown Cropper</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/themes.css">
     <!-- Include marked.js for markdown parsing -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <!-- Include html2canvas for converting to images -->
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <!-- Include JSZip for creating zip files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -33,6 +36,22 @@
             
             <div class="preview-section">
                 <h2>Preview</h2>
+                <div class="theme-selector">
+                    <label for="theme-select">Theme:</label>
+                    <select id="theme-select">
+                        <option value="">Default</option>
+                        <option value="theme-twitter">Twitter/X</option>
+                        <option value="theme-linkedin">LinkedIn</option>
+                        <option value="theme-medium">Medium</option>
+                        <option value="theme-github">GitHub</option>
+                        <option value="theme-dark">Dark Mode</option>
+                        <option value="theme-pinterest">Pinterest</option>
+                        <option value="theme-instagram">Instagram</option>
+                        <option value="theme-apple-notes">Apple Notes</option>
+                        <option value="theme-notion">Notion</option>
+                        <option value="theme-terminal">Retro Terminal</option>
+                    </select>
+                </div>
                 <div id="markdown-preview" class="markdown-content"></div>
             </div>
         </div>
@@ -93,6 +112,20 @@
             
             <div class="export-tools">
                 <h3>Export</h3>
+                <div class="image-width-settings">
+                    <label for="image-width-select">Image Width:</label>
+                    <select id="image-width-select">
+                        <option value="600">600px - Instagram</option>
+                        <option value="800">800px - Twitter/X</option>
+                        <option value="1000">1000px - LinkedIn</option>
+                        <option value="1200">1200px - Pinterest</option>
+                        <option value="custom">Custom Width</option>
+                    </select>
+                    <div id="custom-width-container" style="display: none;">
+                        <label for="custom-image-width">Custom Width (px):</label>
+                        <input type="number" id="custom-image-width" min="300" max="2000" value="800" />
+                    </div>
+                </div>
                 <button id="export-all">Export All Sections</button>
                 <div id="export-sections-container"></div>
             </div>
@@ -100,6 +133,9 @@
         
         <div id="results-section" class="results-section" style="display: none;">
             <h2>Results</h2>
+            <div class="download-all-container">
+                <button id="download-all-btn" class="download-all-btn">Download All Images</button>
+            </div>
             <div id="results-container"></div>
         </div>
     </div>

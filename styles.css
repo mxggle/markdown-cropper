@@ -43,6 +43,28 @@ h1, h2, h3 {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+.theme-selector {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.theme-selector label {
+    margin-bottom: 0;
+    font-weight: 600;
+}
+
+.theme-selector select {
+    flex: 1;
+    max-width: 200px;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    cursor: pointer;
+}
+
 .file-input, .textarea-input {
     margin-bottom: 15px;
 }
@@ -119,7 +141,7 @@ button:hover {
     border-radius: 4px;
     padding: 20px;
     min-height: 300px;
-    max-height: 1200px;
+    max-height: 2000px;
     overflow-y: auto;
     background-color: #fff;
     font-size: 16px;
@@ -327,6 +349,29 @@ button:hover {
     border-bottom: 1px solid #eee;
 }
 
+.image-width-settings {
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+}
+
+.image-width-settings label {
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 8px;
+}
+
+#custom-width-container {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+#custom-image-width {
+    width: 100px;
+}
+
 .watermark-options {
     display: flex;
     gap: 15px;
@@ -338,6 +383,34 @@ button:hover {
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.download-all-container {
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+.download-all-btn {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s;
+}
+
+.download-all-btn:hover {
+    background-color: #219653;
+}
+
+.download-all-btn::before {
+    content: "\2193";
+    font-size: 1.2em;
 }
 
 #results-container {

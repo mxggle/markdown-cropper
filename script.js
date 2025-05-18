@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const markdownTextArea = document.getElementById("markdown-text");
   const processBtn = document.getElementById("process-btn");
   const markdownPreview = document.getElementById("markdown-preview");
+  const themeSelect = document.getElementById("theme-select");
   const toolsSection = document.querySelector(".tools-section");
   const cropPointsContainer = document.getElementById("crop-points-container");
   const addCropPointBtn = document.getElementById("add-crop-point");
@@ -19,6 +20,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const rotationValue = document.getElementById("rotation-value");
   const applyWatermarkBtn = document.getElementById("apply-watermark");
   const exportAllBtn = document.getElementById("export-all");
+  const downloadAllBtn = document.getElementById("download-all-btn");
+  const imageWidthSelect = document.getElementById("image-width-select");
+  const customWidthContainer = document.getElementById("custom-width-container");
+  const customImageWidth = document.getElementById("custom-image-width");
   const exportSectionsContainer = document.getElementById(
     "export-sections-container"
   );
@@ -38,30 +43,80 @@ document.addEventListener("DOMContentLoaded", () => {
     position: "bottom-right",
     rotation: 0,
   };
+  let imageWidth = 800; // Default image width
 
   // Initialize marked.js
   marked.setOptions({
     breaks: true,
     gfm: true,
   });
+  
+  // Initialize image width settings
+  updateImageWidth();
 
   // Event Listeners
   markdownFileInput.addEventListener("change", handleFileUpload);
   processBtn.addEventListener("click", processMarkdown);
   addCropPointBtn.addEventListener("click", addCropPoint);
+  themeSelect.addEventListener("change", changeTheme);
+  downloadAllBtn.addEventListener("click", downloadAllImages);
   h1LevelBtn.addEventListener("click", () => setHeadingLevelCrop(1));
   h2LevelBtn.addEventListener("click", () => setHeadingLevelCrop(2));
   h3LevelBtn.addEventListener("click", () => setHeadingLevelCrop(3));
   clearLevelBtn.addEventListener("click", clearHeadingLevelCrop);
   applyWatermarkBtn.addEventListener("click", applyWatermark);
   exportAllBtn.addEventListener("click", exportAllSections);
+  
+  // Image width settings event listeners
+  imageWidthSelect.addEventListener("change", updateImageWidth);
+  customImageWidth.addEventListener("change", updateCustomImageWidth);
 
   // Update rotation value display
   watermarkRotation.addEventListener("input", () => {
     rotationValue.textContent = `${watermarkRotation.value}°`;
   });
+  
+  // Update image width based on select dropdown
+  function updateImageWidth() {
+    const selectedValue = imageWidthSelect.value;
+    if (selectedValue === "custom") {
+      customWidthContainer.style.display = "block";
+      imageWidth = parseInt(customImageWidth.value) || 800;
+    } else {
+      customWidthContainer.style.display = "none";
+      imageWidth = parseInt(selectedValue) || 800;
+    }
+  }
+  
+  // Update image width from custom input
+  function updateCustomImageWidth() {
+    if (imageWidthSelect.value === "custom") {
+      imageWidth = parseInt(customImageWidth.value) || 800;
+    }
+  }
 
   // Functions
+  function changeTheme() {
+    // Remove all theme classes
+    markdownPreview.classList.remove(
+      "theme-twitter",
+      "theme-linkedin",
+      "theme-medium",
+      "theme-github",
+      "theme-dark",
+      "theme-pinterest",
+      "theme-instagram",
+      "theme-apple-notes",
+      "theme-notion",
+      "theme-terminal"
+    );
+
+    // Add selected theme class if one is selected
+    if (themeSelect.value) {
+      markdownPreview.classList.add(themeSelect.value);
+    }
+  }
+
   function handleFileUpload(e) {
     const file = e.target.files[0];
     if (!file) return;
@@ -516,6 +571,57 @@ document.addEventListener("DOMContentLoaded", () => {
     container.appendChild(watermark);
   }
 
+  function downloadAllImages() {
+    // Check if there are any images to download
+    const resultImages = document.querySelectorAll(".result-item canvas");
+    if (resultImages.length === 0) {
+      alert("No images to download. Please export sections first.");
+      return;
+    }
+
+    // Create a zip file using JSZip
+    const zip = new JSZip();
+    const imgFolder = zip.folder("markdown-images");
+
+    // Add all images to the zip file
+    let processedCount = 0;
+    resultImages.forEach((canvas, index) => {
+      // Get the section name from the previous sibling of the canvas
+      const sectionNameEl = canvas
+        .closest(".result-item")
+        .querySelector(".export-section-name");
+      let fileName = `section-${index + 1}.png`;
+
+      if (sectionNameEl) {
+        // Create a safe filename from the section name
+        const sectionName = sectionNameEl.textContent.trim();
+        fileName = `${sectionName
+          .replace(/[^a-z0-9]/gi, "-")
+          .toLowerCase()}.png`;
+      }
+
+      // Convert canvas to blob
+      canvas.toBlob((blob) => {
+        imgFolder.file(fileName, blob);
+        processedCount++;
+
+        // When all images are processed, generate and download the zip
+        if (processedCount === resultImages.length) {
+          zip.generateAsync({ type: "blob" }).then((content) => {
+            // Create download link
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(content);
+            link.download = "markdown-images.zip";
+            link.click();
+
+            // Clean up
+            URL.revokeObjectURL(link.href);
+          });
+        }
+      }, "image/png");
+    });
+  }
+
   function exportAllSections() {
     resultsSection.style.display = "block";
     resultsContainer.innerHTML = "";
@@ -540,12 +646,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Create a temporary container for rendering
     const tempContainer = document.createElement("div");
+
+    // Apply the current theme class to the exported content
+    const currentThemeClass = themeSelect.value;
     tempContainer.className = "markdown-content";
+    if (currentThemeClass) {
+      tempContainer.classList.add(currentThemeClass);
+    }
+
     tempContainer.style.padding = "20px 40px";
-    tempContainer.style.background = "#fff";
-    // tempContainer.style.border = "1px solid #ddd";
-    // tempContainer.style.borderRadius = "5px";
-    tempContainer.style.width = "700px";
+
+    // Don't override background if a theme is applied
+    if (!currentThemeClass) {
+      tempContainer.style.background = "#fff";
+    }
+
+    // Use consistent image width from UI settings
+    tempContainer.style.width = `${imageWidth}px`;
     tempContainer.style.position = "absolute";
     tempContainer.style.left = "-9999px";
     tempContainer.style.overflow = "visible";
@@ -553,7 +670,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Render the markdown content
     tempContainer.innerHTML = marked.parse(sectionMarkdown);
-    console.log(tempContainer.innerHTML);
+    
     // Add watermark if applied
     if (watermarkApplied) {
       showWatermark(tempContainer);
@@ -562,18 +679,19 @@ document.addEventListener("DOMContentLoaded", () => {
     // Add to document temporarily (needed for html2canvas)
     document.body.appendChild(tempContainer);
 
-    // Convert to image
+    // Convert to image - use consistent width values
     html2canvas(tempContainer, {
-      backgroundColor: "#ffffff",
+      // Use transparent background to respect theme backgrounds
+      backgroundColor: null,
       scale: 2, // Higher quality
       logging: false,
-      width: 750,
+      width: imageWidth,
       height: tempContainer.offsetHeight + 20,
-      windowWidth: 750,
+      windowWidth: imageWidth,
       onclone: function (clonedDoc) {
         const clonedElement = clonedDoc.body.querySelector(".markdown-content");
         if (clonedElement) {
-          clonedElement.style.width = "750px";
+          clonedElement.style.width = `${imageWidth}px`;
           clonedElement.style.height = "auto";
           clonedElement.style.overflow = "visible";
         }
@@ -591,7 +709,8 @@ document.addEventListener("DOMContentLoaded", () => {
       sectionName.className = "export-section-name";
       sectionName.textContent = `${startHeading.text} to ${endHeading.text}`;
 
-      // Add canvas
+      // Add canvas with fixed width to ensure consistency
+      canvas.style.width = `${imageWidth}px`;
       canvas.style.maxWidth = "100%";
 
       // Create download button
