@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>语言学习健身房 - 小红书封面</title>
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100;300;400;700;900&family=Noto+Sans+JP:wght@100;300;400;700;900&family=Roboto:wght@100;300;400;700;900&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100;300;400;700;900&family=Noto+Sans+JP:wght@100;300;400;700;900&family=Roboto:wght@100;300;400;700;900&display=swap">
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
         * {
@@ -14,7 +13,7 @@
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
             font-family: 'Noto Sans SC', sans-serif;
             background: linear-gradient(135deg, #1a2a3a, #0d1117);
@@ -26,7 +25,7 @@
             padding: 20px;
             color: #e0e0e0;
         }
-
+        
         .container {
             max-width: 1200px;
             width: 100%;
@@ -36,13 +35,13 @@
             justify-content: center;
             padding: 20px;
         }
-
+        
         .design-header {
             width: 100%;
             text-align: center;
             margin-bottom: 30px;
         }
-
+        
         .design-header h1 {
             font-weight: 300;
             font-size: 2.5rem;
@@ -51,7 +50,7 @@
             color: #f5f5f5;
             text-transform: uppercase;
         }
-
+        
         .design-header p {
             font-weight: 100;
             color: #aaa;
@@ -60,14 +59,14 @@
             line-height: 1.8;
             font-size: 1.1rem;
         }
-
+        
         .cover-container {
             position: relative;
             width: 600px;
             height: 800px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
         }
-
+        
         .cover {
             width: 100%;
             height: 100%;
@@ -78,9 +77,8 @@
             flex-direction: column;
             padding: 50px;
         }
-
         /* 语言装饰元素 */
-
+        
         .language-grid {
             position: absolute;
             top: 0;
@@ -93,7 +91,7 @@
             opacity: 1;
             z-index: 1;
         }
-
+        
         .language-cell {
             display: flex;
             align-items: center;
@@ -103,9 +101,8 @@
             color: #333;
             transform: rotate(-45deg);
         }
-
         /* 语言切换装饰 */
-
+        
         .language-switch {
             position: absolute;
             top: 50px;
@@ -114,7 +111,7 @@
             gap: 15px;
             z-index: 4;
         }
-
+        
         .lang-btn {
             width: 40px;
             height: 40px;
@@ -129,36 +126,49 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-
+        
         .lang-btn.active {
             background: rgba(50, 50, 50, 0.3);
             transform: scale(1.1);
         }
-
         /* 语言关键词装饰 */
-
+        
         .language-keywords {
             position: absolute;
             bottom: 60px;
-            right: 40px;
+            right: 25px;
             z-index: 4;
             display: flex;
             flex-direction: column;
-            align-items: flex-end;
-            gap: 8px;
+            align-items: center;
+            justify-content: flex-end;
+            width: 60px;
+            height: 300px;
+            gap: 15px;
         }
-
+        
         .lang-keyword {
             font-size: 1.1rem;
             font-weight: 700;
-            color: rgba(50, 50, 50, 0.3);
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
-            letter-spacing: 2px;
+            color: rgba(50, 50, 50, 0.4);
+            text-align: center;
+            width: 100%;
         }
-
+        
+        .lang-keyword.english {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: rgba(50, 50, 50, 0.4);
+            text-align: center;
+            width: 100%;
+            line-height: 1.8;
+            transform: rotate(90deg);
+            transform-origin: center;
+            white-space: nowrap;
+        }
         /* 主要内容 */
-
+        
         .content {
             position: relative;
             z-index: 3;
@@ -167,7 +177,7 @@
             flex-direction: column;
             justify-content: center;
         }
-
+        
         .main-title {
             font-size: 5.8rem;
             font-weight: 900;
@@ -176,12 +186,13 @@
             letter-spacing: -1px;
             color: #222;
         }
-
+        
         .main-title span {
-            display: block;
+            display: inline-block;
             margin-bottom: 10px;
+            vertical-align: middle;
         }
-
+        
         .main-title .japanese {
             font-family: 'Noto Sans JP', sans-serif;
             font-weight: 700;
@@ -189,7 +200,7 @@
             color: #444;
             margin-top: 10px;
         }
-
+        
         .main-title .english {
             font-family: 'Roboto', sans-serif;
             font-weight: 800;
@@ -197,7 +208,7 @@
             color: #333;
             letter-spacing: -1px;
         }
-
+        
         .sub-title {
             font-size: 1.8rem;
             font-weight: 300;
@@ -207,7 +218,7 @@
             line-height: 1.5;
             padding-left: 5px;
         }
-
+        
         .highlight {
             font-size: 3.2rem;
             font-weight: 700;
@@ -218,7 +229,7 @@
             position: relative;
             display: inline-block;
         }
-
+        
         .highlight::after {
             content: '';
             position: absolute;
@@ -228,7 +239,7 @@
             height: 3px;
             background: linear-gradient(90deg, #222, transparent);
         }
-
+        
         .author {
             font-size: 1.6rem;
             font-weight: 400;
@@ -236,7 +247,7 @@
             letter-spacing: 2px;
             margin-top: auto;
         }
-
+        
         .tagline {
             font-size: 1.3rem;
             font-weight: 300;
@@ -245,18 +256,19 @@
             margin-top: 8px;
             font-style: italic;
         }
-
+        
         .handwritten-circle {
             position: relative;
             display: inline-block;
+            white-space: nowrap;
         }
-
+        
         .handwritten-circle::before {
             content: '';
             position: absolute;
             top: -15px;
             left: -20px;
-            right: 100px;
+            right: -20px;
             bottom: -15px;
             border: 3px solid #444;
             border-radius: 50%;
@@ -266,13 +278,13 @@
             background: none;
             box-shadow: 0 0 0 1px rgba(68, 68, 68, 0.2);
         }
-
+        
         .handwritten-circle::after {
             content: '';
             position: absolute;
             top: -12px;
             left: -18px;
-            right: 184px;
+            right: -18px;
             bottom: -12px;
             border: 2px solid #555;
             border-radius: 50%;
@@ -281,13 +293,13 @@
             z-index: 1;
             background: none;
         }
-
+        
         .controls {
             margin-top: 35px;
             display: flex;
             gap: 15px;
         }
-
+        
         .btn {
             background: linear-gradient(135deg, #3a506b, #1c2541);
             color: white;
@@ -301,25 +313,156 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
-
+        
         .btn:hover {
             background: linear-gradient(135deg, #2c3e50, #0d1b2a);
             transform: translateY(-3px);
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
         }
-
+        
         .btn:active {
             transform: translateY(0);
         }
-
+        
         .btn-save {
             background: linear-gradient(135deg, #4a9fe3, #2a6ebf);
         }
-
+        
         .btn-save:hover {
             background: linear-gradient(135deg, #3a8fd3, #1a5eaf);
         }
-
+        
+        .settings-panel {
+            width: 400px;
+            padding: 30px;
+            background: rgba(25, 35, 45, 0.7);
+            border-radius: 2px;
+            border: 1px solid rgba(100, 100, 100, 0.2);
+            margin-bottom: 20px;
+        }
+        
+        .settings-title {
+            font-size: 1.6rem;
+            font-weight: 300;
+            margin-bottom: 25px;
+            color: #f5f5f5;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        
+        .setting-group {
+            margin-bottom: 25px;
+        }
+        
+        .setting-label {
+            display: block;
+            font-size: 1rem;
+            font-weight: 400;
+            color: #a0aec0;
+            margin-bottom: 10px;
+        }
+        
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .color-option:hover {
+            transform: scale(1.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .color-option.active {
+            border-color: #4a9fe3;
+            box-shadow: 0 0 0 2px rgba(74, 159, 227, 0.3);
+        }
+        
+        .topic-input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(40, 50, 60, 0.8);
+            border: 1px solid rgba(100, 100, 100, 0.3);
+            border-radius: 4px;
+            color: #e0e0e0;
+            font-size: 1rem;
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+        
+        .topic-input:focus {
+            outline: none;
+            border-color: #4a9fe3;
+            box-shadow: 0 0 0 2px rgba(74, 159, 227, 0.2);
+        }
+        
+        .icon-section {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .icon-upload {
+            display: none;
+        }
+        
+        .upload-btn {
+            background: rgba(60, 70, 80, 0.8);
+            color: #e0e0e0;
+            border: 1px solid rgba(100, 100, 100, 0.3);
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-btn:hover {
+            background: rgba(70, 80, 90, 0.9);
+            border-color: #4a9fe3;
+        }
+        
+        .emoji-picker {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 5px;
+            margin-top: 10px;
+        }
+        
+        .emoji-option {
+            width: 35px;
+            height: 35px;
+            border: 1px solid rgba(100, 100, 100, 0.2);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            background: rgba(40, 50, 60, 0.5);
+        }
+        
+        .emoji-option:hover {
+            background: rgba(60, 70, 80, 0.8);
+            transform: scale(1.1);
+        }
+        
+        .emoji-option.active {
+            border-color: #4a9fe3;
+            background: rgba(74, 159, 227, 0.2);
+        }
+        
         .design-details {
             width: 400px;
             padding: 30px;
@@ -327,7 +470,7 @@
             border-radius: 2px;
             border: 1px solid rgba(100, 100, 100, 0.2);
         }
-
+        
         .details-title {
             font-size: 1.6rem;
             font-weight: 300;
@@ -336,11 +479,11 @@
             padding-bottom: 12px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.15);
         }
-
+        
         .details-list {
             list-style: none;
         }
-
+        
         .details-list li {
             padding: 16px 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -348,32 +491,32 @@
             color: #ddd;
             display: flex;
         }
-
+        
         .details-list li:last-child {
             border-bottom: none;
         }
-
+        
         .detail-label {
             width: 120px;
             font-weight: 400;
             color: #a0aec0;
         }
-
+        
         .detail-value {
             flex: 1;
             font-weight: 300;
         }
-
+        
         .feature {
             display: flex;
             align-items: center;
             margin-top: 8px;
         }
-
+        
         .feature:first-child {
             margin-top: 0;
         }
-
+        
         .feature-icon {
             width: 16px;
             height: 16px;
@@ -381,50 +524,44 @@
             margin-right: 12px;
             border-radius: 1px;
         }
-
+        
         @media (max-width: 1100px) {
             .container {
                 flex-direction: column;
                 align-items: center;
             }
-
+            .settings-panel,
             .design-details {
                 width: 600px;
                 max-width: 100%;
             }
         }
-
+        
         @media (max-width: 650px) {
             .cover-container {
                 width: 100%;
                 height: auto;
                 aspect-ratio: 3/4;
             }
-
             .cover {
                 padding: 25px;
             }
-
             .main-title {
                 font-size: 3.8rem;
             }
-
             .main-title .japanese {
                 font-size: 2.8rem;
             }
-
             .main-title .english {
                 font-size: 3rem;
             }
-
             .sub-title {
                 font-size: 1.4rem;
             }
-
             .highlight {
                 font-size: 2.2rem;
             }
-
+            .settings-panel,
             .design-details {
                 width: 100%;
             }
@@ -446,9 +583,9 @@
 
                 <!-- 语言关键词 -->
                 <div class="language-keywords">
-                    <div class="lang-keyword">トレーニング</div>
-                    <div class="lang-keyword">Workout</div>
-                    <div class="lang-keyword">健身</div>
+                    <div class="lang-keyword" id="japaneseKeyword">トレーニング</div>
+                    <div class="lang-keyword english" id="englishKeyword">Workout</div>
+                    <div class="lang-keyword" id="chineseKeyword">健身</div>
                 </div>
 
                 <!-- 主要内容 -->
@@ -457,10 +594,11 @@
                         <span>🇯🇵🇨🇳🇺🇸三语健身房</span>
                         <span class="japanese">中日英三ヶ国語ジム</span>
                         <span class="english">TRILINGUAL GYM</span>
-                        <span class="english handwritten-circle"><span>💪 练胸相关</span></span>
+                        <span class="english handwritten-circle"><span id="topicDisplay"><span id="topicIcon">💪</span> <span id="topicText">练背篇</span></span>
+                        </span>
                     </div>
 
-                    <div class="author">陈修在日本</div>
+                    <div class="author">@陈修在日本</div>
                     <div class="tagline">用嘴称霸健身房</div>
                 </div>
             </div>
@@ -468,6 +606,79 @@
             <div class="controls">
                 <button class="btn btn-save" id="saveBtn">保存封面图片</button>
                 <button class="btn" id="refreshBtn">刷新关键词</button>
+            </div>
+        </div>
+
+        <div class="settings-panel">
+            <h2 class="settings-title">自定义设置</h2>
+
+            <div class="setting-group">
+                <label class="setting-label" for="bgColorPalette">背景颜色</label>
+                <div class="color-palette" id="bgColorPalette">
+                    <div class="color-option active" data-color="linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);"></div>
+                    <div class="color-option" data-color="linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%)" style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);"></div>
+                    <div class="color-option" data-color="linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%)" style="background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%);"></div>
+                    <div class="color-option" data-color="linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%)" style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);"></div>
+                    <div class="color-option" data-color="linear-gradient(135deg, #fce4ec 0%, #f8bbd9 100%)" style="background: linear-gradient(135deg, #fce4ec 0%, #f8bbd9 100%);"></div>
+                    <div class="color-option" data-color="linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%)" style="background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);"></div>
+                    <div class="color-option" data-color="linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%)" style="background: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%);"></div>
+                    <div class="color-option" data-color="linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%)" style="background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);"></div>
+                    <div class="color-option" data-color="linear-gradient(135deg, #efebe9 0%, #d7ccc8 100%)" style="background: linear-gradient(135deg, #efebe9 0%, #d7ccc8 100%);"></div>
+                    <div class="color-option" data-color="linear-gradient(135deg, #eceff1 0%, #cfd8dc 100%)" style="background: linear-gradient(135deg, #eceff1 0%, #cfd8dc 100%);"></div>
+                    <div class="color-option" data-color="linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%)" style="background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);"></div>
+                    <div class="color-option" data-color="linear-gradient(135deg, #f1f8e9 0%, #dcedc8 100%)" style="background: linear-gradient(135deg, #f1f8e9 0%, #dcedc8 100%);"></div>
+                    <div class="color-option" data-color="linear-gradient(135deg, #e8eaf6 0%, #c5cae9 100%)" style="background: linear-gradient(135deg, #e8eaf6 0%, #c5cae9 100%);"></div>
+                    <div class="color-option" data-color="linear-gradient(135deg, #fdf2e9 0%, #fadbd8 100%)" style="background: linear-gradient(135deg, #fdf2e9 0%, #fadbd8 100%);"></div>
+                    <div class="color-option" data-color="linear-gradient(135deg, #eaf2f8 0%, #d4dbe6 100%)" style="background: linear-gradient(135deg, #eaf2f8 0%, #d4dbe6 100%);"></div>
+                    <div class="color-option" data-color="linear-gradient(135deg, #f4f3ff 0%, #e0e7ff 100%)" style="background: linear-gradient(135deg, #f4f3ff 0%, #e0e7ff 100%);"></div>
+                    <div class="color-option" data-color="linear-gradient(135deg, #fef7ff 0%, #f3e8ff 100%)" style="background: linear-gradient(135deg, #fef7ff 0%, #f3e8ff 100%);"></div>
+                    <div class="color-option" data-color="linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%)" style="background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);"></div>
+                    <div class="color-option" data-color="linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%)" style="background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);"></div>
+                    <div class="color-option" data-color="linear-gradient(135deg, #fef2f2 0%, #fecaca 100%)" style="background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);"></div>
+                    <div class="color-option" data-color="linear-gradient(135deg, #f7fee7 0%, #d9f99d 100%)" style="background: linear-gradient(135deg, #f7fee7 0%, #d9f99d 100%);"></div>
+                    <div class="color-option" data-color="linear-gradient(135deg, #e6fffa 0%, #a7f3d0 100%)" style="background: linear-gradient(135deg, #e6fffa 0%, #a7f3d0 100%);"></div>
+                    <div class="color-option" data-color="linear-gradient(135deg, #eff6ff 0%, #bfdbfe 100%)" style="background: linear-gradient(135deg, #eff6ff 0%, #bfdbfe 100%);"></div>
+                    <div class="color-option" data-color="linear-gradient(135deg, #faf5ff 0%, #e9d5ff 100%)" style="background: linear-gradient(135deg, #faf5ff 0%, #e9d5ff 100%);"></div>
+                    <div class="color-option" data-color="linear-gradient(135deg, #fefce8 0%, #fde047 100%)" style="background: linear-gradient(135deg, #fefce8 0%, #fde047 100%);"></div>
+                    <div class="color-option" data-color="linear-gradient(135deg, #fff1f2 0%, #fda4af 100%)" style="background: linear-gradient(135deg, #fff1f2 0%, #fda4af 100%);"></div>
+                    <div class="color-option" data-color="linear-gradient(135deg, #f0f9ff 0%, #7dd3fc 100%)" style="background: linear-gradient(135deg, #f0f9ff 0%, #7dd3fc 100%);"></div>
+                    <div class="color-option" data-color="linear-gradient(135deg, #ecfdf5 0%, #6ee7b7 100%)" style="background: linear-gradient(135deg, #ecfdf5 0%, #6ee7b7 100%);"></div>
+                    <div class="color-option" data-color="linear-gradient(135deg, #f5f3ff 0%, #c4b5fd 100%)" style="background: linear-gradient(135deg, #f5f3ff 0%, #c4b5fd 100%);"></div>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <label class="setting-label" for="topicInput">主题内容</label>
+                <input type="text" id="topicInput" class="topic-input" value="练背篇" placeholder="输入主题内容...">
+            </div>
+
+            <div class="setting-group">
+                <label class="setting-label">主题图标</label>
+                <div class="icon-section">
+                    <input type="file" id="iconUpload" class="icon-upload" accept="image/*">
+                    <label for="iconUpload" class="upload-btn">上传图标</label>
+                    <span style="color: #888;">或选择表情</span>
+                </div>
+                <div class="emoji-picker">
+                    <div class="emoji-option active" data-emoji="💪">💪</div>
+                    <div class="emoji-option" data-emoji="🏋️">🏋️</div>
+                    <div class="emoji-option" data-emoji="🤸">🤸</div>
+                    <div class="emoji-option" data-emoji="🏃">🏃</div>
+                    <div class="emoji-option" data-emoji="🚴">🚴</div>
+                    <div class="emoji-option" data-emoji="🤾">🤾</div>
+                    <div class="emoji-option" data-emoji="🏊">🏊</div>
+                    <div class="emoji-option" data-emoji="🧘">🧘</div>
+                    <div class="emoji-option" data-emoji="⚡">⚡</div>
+                    <div class="emoji-option" data-emoji="🔥">🔥</div>
+                    <div class="emoji-option" data-emoji="💯">💯</div>
+                    <div class="emoji-option" data-emoji="🎯">🎯</div>
+                    <div class="emoji-option" data-emoji="📚">📚</div>
+                    <div class="emoji-option" data-emoji="🗣️">🗣️</div>
+                    <div class="emoji-option" data-emoji="🧠">🧠</div>
+                    <div class="emoji-option" data-emoji="📖">📖</div>
+                    <div class="emoji-option" data-emoji="✍️">✍️</div>
+                    <div class="emoji-option" data-emoji="🎓">🎓</div>
+                </div>
             </div>
         </div>
 
@@ -556,40 +767,153 @@
 
         // 语言切换功能
         document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.addEventListener('click', function () {
+            btn.addEventListener('click', function() {
                 document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
             });
         });
 
         // 刷新关键词功能
-        document.getElementById('refreshBtn').addEventListener('click', function () {
+        document.getElementById('refreshBtn').addEventListener('click', function() {
             const cnKeywords = ['语言', '健身', '交流', '学习', '指导', '术语', '训练', '肌肉'];
             const jpKeywords = ['会話', '学習', '指導', '用語', '練習', '筋肉', '交流', '言語'];
             const enKeywords = ['TALK', 'LEARN', 'COACH', 'TERMS', 'TRAIN', 'MUSCLE', 'LIFT', 'BODY'];
 
-            const keywords = document.querySelectorAll('.lang-keyword');
+            const japaneseKeyword = document.getElementById('japaneseKeyword');
+            const englishKeyword = document.getElementById('englishKeyword');
+            const chineseKeyword = document.getElementById('chineseKeyword');
 
-            keywords[0].textContent = jpKeywords[Math.floor(Math.random() * jpKeywords.length)];
-            keywords[1].textContent = enKeywords[Math.floor(Math.random() * enKeywords.length)];
-            keywords[2].textContent = cnKeywords[Math.floor(Math.random() * cnKeywords.length)];
+            // Update Japanese keyword
+            japaneseKeyword.textContent = jpKeywords[Math.floor(Math.random() * jpKeywords.length)];
+
+            // Update English keyword
+            englishKeyword.textContent = enKeywords[Math.floor(Math.random() * enKeywords.length)];
+
+            // Update Chinese keyword
+            chineseKeyword.textContent = cnKeywords[Math.floor(Math.random() * cnKeywords.length)];
+
+            // Reinitialize vertical text
+            initializeVerticalText();
 
             // 重新生成语言网格
             generateLanguageGrid();
         });
 
         // 保存为图片
-        document.getElementById('saveBtn').addEventListener('click', function () {
-            html2canvas(document.getElementById('cover')).then(canvas => {
-                const link = document.createElement('a');
-                link.download = '语言学习健身房-练胸篇.png';
-                link.href = canvas.toDataURL('image/png');
-                link.click();
+        document.getElementById('saveBtn').addEventListener('click', function() {
+            // Add a small delay to ensure rendering is complete
+            setTimeout(() => {
+                html2canvas(document.getElementById('cover'), {
+                    scale: 3,
+                    useCORS: true,
+                    allowTaint: true,
+                    logging: false,
+                    width: 600,
+                    height: 800,
+                    scrollX: 0,
+                    scrollY: 0,
+                    backgroundColor: null,
+                    removeContainer: false,
+                    imageTimeout: 15000,
+                    onclone: function(clonedDoc) {
+                        // Force the cloned document to use the same styles
+                        const clonedElement = clonedDoc.getElementById('cover');
+                        if (clonedElement) {
+                            clonedElement.style.overflow = 'visible';
+                        }
+                    }
+                }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = '语言学习健身房-练胸篇.png';
+                    link.href = canvas.toDataURL('image/png', 1.0);
+                    link.click();
+                });
+            }, 500);
+        });
+
+        // 背景颜色选择功能
+        document.querySelectorAll('.color-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+
+                const cover = document.getElementById('cover');
+                cover.style.background = this.dataset.color;
             });
         });
 
+        // 主题内容更新功能
+        document.getElementById('topicInput').addEventListener('input', function() {
+            const topicText = document.getElementById('topicText');
+            topicText.textContent = this.value || '练背篇';
+        });
+
+        // 表情选择功能
+        document.querySelectorAll('.emoji-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.emoji-option').forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+
+                const topicIcon = document.getElementById('topicIcon');
+                topicIcon.textContent = this.dataset.emoji;
+            });
+        });
+
+        // 图标上传功能
+        document.getElementById('iconUpload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const topicIcon = document.getElementById('topicIcon');
+                    // 清除当前表情选择
+                    document.querySelectorAll('.emoji-option').forEach(opt => opt.classList.remove('active'));
+
+                    // 创建图片元素替换表情
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.width = '1.2em';
+                    img.style.height = '1.2em';
+                    img.style.objectFit = 'contain';
+                    img.style.verticalAlign = 'middle';
+
+                    topicIcon.innerHTML = '';
+                    topicIcon.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // 初始化垂直文本 - html2canvas兼容版本
+        function initializeVerticalText() {
+            const japaneseKeyword = document.getElementById('japaneseKeyword');
+            const chineseKeyword = document.getElementById('chineseKeyword');
+
+            function makeVerticalSpans(element) {
+                const text = element.textContent;
+                element.innerHTML = '';
+
+                const chars = Array.from(text);
+                chars.forEach(char => {
+                    const span = document.createElement('div');
+                    span.textContent = char;
+                    span.style.display = 'block';
+                    span.style.textAlign = 'center';
+                    span.style.lineHeight = '1.1rem';
+                    span.style.fontSize = '1.1rem';
+                    span.style.fontWeight = '700';
+                    span.style.color = 'rgba(50, 50, 50, 0.4)';
+                    element.appendChild(span);
+                });
+            }
+
+            makeVerticalSpans(japaneseKeyword);
+            makeVerticalSpans(chineseKeyword);
+        }
+
         // 初始化
         generateLanguageGrid();
+        initializeVerticalText();
     </script>
 </body>
 
