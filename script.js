@@ -1,460 +1,460 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // DOM Elements
-  const markdownFileInput = document.getElementById("markdown-file");
-  const markdownTextArea = document.getElementById("markdown-text");
-  const processBtn = document.getElementById("process-btn");
-  const markdownPreview = document.getElementById("markdown-preview");
-  const themeSelect = document.getElementById("theme-select");
-  const toolsSection = document.querySelector(".tools-section");
-  const cropPointsContainer = document.getElementById("crop-points-container");
-  const addCropPointBtn = document.getElementById("add-crop-point");
-  const h1LevelBtn = document.getElementById("h1-level-btn");
-  const h2LevelBtn = document.getElementById("h2-level-btn");
-  const h3LevelBtn = document.getElementById("h3-level-btn");
-  const clearLevelBtn = document.getElementById("clear-level-btn");
-  const watermarkText = document.getElementById("watermark-text");
-  const watermarkColor = document.getElementById("watermark-color");
-  const watermarkOpacity = document.getElementById("watermark-opacity");
-  const watermarkPosition = document.getElementById("watermark-position");
-  const watermarkRotation = document.getElementById("watermark-rotation");
-  const rotationValue = document.getElementById("rotation-value");
-  const applyWatermarkBtn = document.getElementById("apply-watermark");
-  const exportAllBtn = document.getElementById("export-all");
-  const downloadAllBtn = document.getElementById("download-all-btn");
-  const imageWidthSelect = document.getElementById("image-width-select");
-  const customWidthContainer = document.getElementById(
-    "custom-width-container"
-  );
-  const customImageWidth = document.getElementById("custom-image-width");
-  const exportSectionsContainer = document.getElementById(
-    "export-sections-container"
-  );
-  const resultsSection = document.getElementById("results-section");
-  const resultsContainer = document.getElementById("results-container");
+            // DOM Elements
+            const markdownFileInput = document.getElementById("markdown-file");
+            const markdownTextArea = document.getElementById("markdown-text");
+            const processBtn = document.getElementById("process-btn");
+            const markdownPreview = document.getElementById("markdown-preview");
+            const themeSelect = document.getElementById("theme-select");
+            const toolsSection = document.querySelector(".tools-section");
+            const cropPointsContainer = document.getElementById("crop-points-container");
+            const addCropPointBtn = document.getElementById("add-crop-point");
+            const h1LevelBtn = document.getElementById("h1-level-btn");
+            const h2LevelBtn = document.getElementById("h2-level-btn");
+            const h3LevelBtn = document.getElementById("h3-level-btn");
+            const clearLevelBtn = document.getElementById("clear-level-btn");
+            const watermarkText = document.getElementById("watermark-text");
+            const watermarkColor = document.getElementById("watermark-color");
+            const watermarkOpacity = document.getElementById("watermark-opacity");
+            const watermarkPosition = document.getElementById("watermark-position");
+            const watermarkRotation = document.getElementById("watermark-rotation");
+            const rotationValue = document.getElementById("rotation-value");
+            const applyWatermarkBtn = document.getElementById("apply-watermark");
+            const exportAllBtn = document.getElementById("export-all");
+            const downloadAllBtn = document.getElementById("download-all-btn");
+            const imageWidthSelect = document.getElementById("image-width-select");
+            const customWidthContainer = document.getElementById(
+                "custom-width-container"
+            );
+            const customImageWidth = document.getElementById("custom-image-width");
+            const exportSectionsContainer = document.getElementById(
+                "export-sections-container"
+            );
+            const resultsSection = document.getElementById("results-section");
+            const resultsContainer = document.getElementById("results-container");
 
-  // State variables
-  let markdownContent = "";
-  let headings = [];
-  let cropPoints = [];
-  let watermarkApplied = false;
-  let activeHeadingLevel = null; // For auto-cropping by heading level
-  let watermarkSettings = {
-    text: "",
-    color: "#888888",
-    opacity: 0.3,
-    position: "bottom-right",
-    rotation: 0,
-  };
-  let imageWidth = 800; // Default image width
-  let markdownFileBasePath = ""; // Store the base path for resolving image references
+            // State variables
+            let markdownContent = "";
+            let headings = [];
+            let cropPoints = [];
+            let watermarkApplied = false;
+            let activeHeadingLevel = null; // For auto-cropping by heading level
+            let watermarkSettings = {
+                text: "",
+                color: "#888888",
+                opacity: 0.3,
+                position: "bottom-right",
+                rotation: 0,
+            };
+            let imageWidth = 800; // Default image width
+            let markdownFileBasePath = ""; // Store the base path for resolving image references
 
-  // Initialize marked.js
-  const renderer = new marked.Renderer();
+            // Initialize marked.js
+            const renderer = new marked.Renderer();
 
-  // Custom image renderer to handle image paths
-  renderer.image = function (href, title, text) {
-    // Handle case where href is an object (from marked lexer)
-    if (href && typeof href === "object") {
-      console.log("Object href received:", href);
-      // If href has its own href property, use that
-      if (href.href && typeof href.href === "string") {
-        text = href.text || text || "";
-        title = href.title || title || null;
-        href = href.href;
-      } else if (href.raw && typeof href.raw === "string") {
-        // Try to use raw property if available
-        href = href.raw;
-      } else {
-        console.warn("Invalid href object structure:", href);
-        href = "";
-      }
-    }
+            // Custom image renderer to handle image paths
+            renderer.image = function(href, title, text) {
+                // Handle case where href is an object (from marked lexer)
+                if (href && typeof href === "object") {
+                    console.log("Object href received:", href);
+                    // If href has its own href property, use that
+                    if (href.href && typeof href.href === "string") {
+                        text = href.text || text || "";
+                        title = href.title || title || null;
+                        href = href.href;
+                    } else if (href.raw && typeof href.raw === "string") {
+                        // Try to use raw property if available
+                        href = href.raw;
+                    } else {
+                        console.warn("Invalid href object structure:", href);
+                        href = "";
+                    }
+                }
 
-    // Ensure href is a string
-    if (!href || typeof href !== "string") {
-      console.warn("Invalid href received:", href);
-      href = "";
-    }
+                // Ensure href is a string
+                if (!href || typeof href !== "string") {
+                    console.warn("Invalid href received:", href);
+                    href = "";
+                }
 
-    // Check if the href is already a data URL or absolute URL
-    if (
-      href.startsWith("data:") ||
-      href.match(/^(https?:\/\/|file:|\/)/) ||
-      href.startsWith("blob:")
-    ) {
-      return `<img src="${href}" alt="${text || ""}" title="${title || ""}" />`;
-    }
+                // Check if the href is already a data URL or absolute URL
+                if (
+                    href.startsWith("data:") ||
+                    href.match(/^(https?:\/\/|file:|\/)/) ||
+                    href.startsWith("blob:")
+                ) {
+                    return `<img src="${href}" alt="${text || ""}" title="${title || ""}" />`;
+                }
 
-    // Extract the image filename from the href
-    let imgFilename = href;
+                // Extract the image filename from the href
+                let imgFilename = href;
 
-    // Handle URL-encoded characters in the filename
-    try {
-      // Try to decode URL-encoded characters
-      imgFilename = decodeURIComponent(imgFilename);
-    } catch (e) {
-      console.warn("Error decoding URL:", e);
-    }
+                // Handle URL-encoded characters in the filename
+                try {
+                    // Try to decode URL-encoded characters
+                    imgFilename = decodeURIComponent(imgFilename);
+                } catch (e) {
+                    console.warn("Error decoding URL:", e);
+                }
 
-    // Remove any path information and just get the filename
-    if (imgFilename.includes("/")) {
-      imgFilename = imgFilename.substring(imgFilename.lastIndexOf("/") + 1);
-    }
+                // Remove any path information and just get the filename
+                if (imgFilename.includes("/")) {
+                    imgFilename = imgFilename.substring(imgFilename.lastIndexOf("/") + 1);
+                }
 
-    console.log("Looking for image:", imgFilename);
+                console.log("Looking for image:", imgFilename);
 
-    // Check if we have this image in our loaded files
-    if (imageFiles[imgFilename]) {
-      console.log(
-        `Using cached image for ${imgFilename}: ${imageFiles[imgFilename]}`
-      );
-      return `<img 
+                // Check if we have this image in our loaded files
+                if (imageFiles[imgFilename]) {
+                    console.log(
+                        `Using cached image for ${imgFilename}: ${imageFiles[imgFilename]}`
+                    );
+                    return `<img 
         src="${imageFiles[imgFilename]}" 
         alt="${text || ""}" 
         title="${title || ""}" 
         class="markdown-image"
       />`;
-    }
+                }
 
-    // Try alternative filenames (case insensitive match)
-    const imgKeys = Object.keys(imageFiles);
-    const matchedKey = imgKeys.find(
-      (key) => key.toLowerCase() === imgFilename.toLowerCase()
-    );
+                // Try alternative filenames (case insensitive match)
+                const imgKeys = Object.keys(imageFiles);
+                const matchedKey = imgKeys.find(
+                    (key) => key.toLowerCase() === imgFilename.toLowerCase()
+                );
 
-    if (matchedKey) {
-      console.log(
-        `Found case-insensitive match for ${imgFilename}: ${matchedKey}`
-      );
-      return `<img 
+                if (matchedKey) {
+                    console.log(
+                        `Found case-insensitive match for ${imgFilename}: ${matchedKey}`
+                    );
+                    return `<img 
         src="${imageFiles[matchedKey]}" 
         alt="${text || ""}" 
         title="${title || ""}" 
         class="markdown-image"
       />`;
-    }
+                }
 
-    // For relative paths, try to resolve them as a fallback
-    let resolvedHref = href;
+                // For relative paths, try to resolve them as a fallback
+                let resolvedHref = href;
 
-    // If we have a base path and it's a relative URL
-    if (markdownFileBasePath) {
-      resolvedHref = markdownFileBasePath + href;
-      console.log("Original image href:", href);
-      console.log("Resolved image href:", resolvedHref);
-    }
+                // If we have a base path and it's a relative URL
+                if (markdownFileBasePath) {
+                    resolvedHref = markdownFileBasePath + href;
+                    console.log("Original image href:", href);
+                    console.log("Resolved image href:", resolvedHref);
+                }
 
-    // Add error handling for images that fail to load
-    return `<img 
+                // Add error handling for images that fail to load
+                return `<img 
       src="${resolvedHref}" 
       alt="${text || ""}" 
       title="${title || ""}" 
       onerror="this.onerror=null; this.src='data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23eee%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22sans-serif%22 font-size=%2212px%22 fill=%22%23999%22%3EImage not found%3C/text%3E%3C/svg%3E';" 
       class="markdown-image"
     />`;
-  };
+            };
 
-  marked.setOptions({
-    breaks: true,
-    gfm: true,
-    renderer: renderer,
-  });
+            marked.setOptions({
+                breaks: true,
+                gfm: true,
+                renderer: renderer,
+            });
 
-  // Initialize image width settings
-  updateImageWidth();
+            // Initialize image width settings
+            updateImageWidth();
 
-  // Event Listeners
-  markdownFileInput.addEventListener("change", handleFileUpload);
-  processBtn.addEventListener("click", processMarkdown);
-  addCropPointBtn.addEventListener("click", addCropPoint);
-  themeSelect.addEventListener("change", changeTheme);
-  downloadAllBtn.addEventListener("click", downloadAllImages);
-  h1LevelBtn.addEventListener("click", () => setHeadingLevelCrop(1));
-  h2LevelBtn.addEventListener("click", () => setHeadingLevelCrop(2));
-  h3LevelBtn.addEventListener("click", () => setHeadingLevelCrop(3));
-  clearLevelBtn.addEventListener("click", clearHeadingLevelCrop);
-  applyWatermarkBtn.addEventListener("click", applyWatermark);
-  exportAllBtn.addEventListener("click", exportAllSections);
+            // Event Listeners
+            markdownFileInput.addEventListener("change", handleFileUpload);
+            processBtn.addEventListener("click", processMarkdown);
+            addCropPointBtn.addEventListener("click", addCropPoint);
+            themeSelect.addEventListener("change", changeTheme);
+            downloadAllBtn.addEventListener("click", downloadAllImages);
+            h1LevelBtn.addEventListener("click", () => setHeadingLevelCrop(1));
+            h2LevelBtn.addEventListener("click", () => setHeadingLevelCrop(2));
+            h3LevelBtn.addEventListener("click", () => setHeadingLevelCrop(3));
+            clearLevelBtn.addEventListener("click", clearHeadingLevelCrop);
+            applyWatermarkBtn.addEventListener("click", applyWatermark);
+            exportAllBtn.addEventListener("click", exportAllSections);
 
-  // Image width settings event listeners
-  imageWidthSelect.addEventListener("change", updateImageWidth);
-  customImageWidth.addEventListener("change", updateCustomImageWidth);
+            // Image width settings event listeners
+            imageWidthSelect.addEventListener("change", updateImageWidth);
+            customImageWidth.addEventListener("change", updateCustomImageWidth);
 
-  // Update rotation value display
-  watermarkRotation.addEventListener("input", () => {
-    rotationValue.textContent = `${watermarkRotation.value}°`;
-  });
+            // Update rotation value display
+            watermarkRotation.addEventListener("input", () => {
+                rotationValue.textContent = `${watermarkRotation.value}°`;
+            });
 
-  // Update image width based on select dropdown
-  function updateImageWidth() {
-    const selectedValue = imageWidthSelect.value;
-    if (selectedValue === "custom") {
-      customWidthContainer.style.display = "block";
-      imageWidth = parseInt(customImageWidth.value) || 800;
-    } else {
-      customWidthContainer.style.display = "none";
-      imageWidth = parseInt(selectedValue) || 800;
-    }
-  }
+            // Update image width based on select dropdown
+            function updateImageWidth() {
+                const selectedValue = imageWidthSelect.value;
+                if (selectedValue === "custom") {
+                    customWidthContainer.style.display = "block";
+                    imageWidth = parseInt(customImageWidth.value) || 800;
+                } else {
+                    customWidthContainer.style.display = "none";
+                    imageWidth = parseInt(selectedValue) || 800;
+                }
+            }
 
-  // Update image width from custom input
-  function updateCustomImageWidth() {
-    if (imageWidthSelect.value === "custom") {
-      imageWidth = parseInt(customImageWidth.value) || 800;
-    }
-  }
+            // Update image width from custom input
+            function updateCustomImageWidth() {
+                if (imageWidthSelect.value === "custom") {
+                    imageWidth = parseInt(customImageWidth.value) || 800;
+                }
+            }
 
-  // Functions
-  function changeTheme() {
-    // Remove all theme classes
-    markdownPreview.classList.remove(
-      "theme-twitter",
-      "theme-linkedin",
-      "theme-medium",
-      "theme-github",
-      "theme-dark",
-      "theme-pinterest",
-      "theme-instagram",
-      "theme-apple-notes",
-      "theme-notion",
-      "theme-terminal",
-      "theme-gym",
-      "theme-energy"
-    );
+            // Functions
+            function changeTheme() {
+                // Remove all theme classes
+                markdownPreview.classList.remove(
+                    "theme-twitter",
+                    "theme-linkedin",
+                    "theme-medium",
+                    "theme-github",
+                    "theme-dark",
+                    "theme-pinterest",
+                    "theme-instagram",
+                    "theme-apple-notes",
+                    "theme-notion",
+                    "theme-terminal",
+                    "theme-gym",
+                    "theme-energy"
+                );
 
-    // Add selected theme class if one is selected
-    if (themeSelect.value) {
-      markdownPreview.classList.add(themeSelect.value);
-    }
-  }
+                // Add selected theme class if one is selected
+                if (themeSelect.value) {
+                    markdownPreview.classList.add(themeSelect.value);
+                }
+            }
 
-  // Store references to image files
-  let imageFiles = {};
+            // Store references to image files
+            let imageFiles = {};
 
-  function handleFileUpload(e) {
-    const file = e.target.files[0];
-    if (!file) return;
+            function handleFileUpload(e) {
+                const file = e.target.files[0];
+                if (!file) return;
 
-    // Extract the directory name from the file path
-    const filePath = file.name;
-    const lastSlashIndex = filePath.lastIndexOf("/");
-    const dirName =
-      lastSlashIndex !== -1 ? filePath.substring(0, lastSlashIndex + 1) : "";
-    markdownFileBasePath = dirName;
+                // Extract the directory name from the file path
+                const filePath = file.name;
+                const lastSlashIndex = filePath.lastIndexOf("/");
+                const dirName =
+                    lastSlashIndex !== -1 ? filePath.substring(0, lastSlashIndex + 1) : "";
+                markdownFileBasePath = dirName;
 
-    console.log("Markdown file path:", filePath);
-    console.log("Base path for images:", markdownFileBasePath);
+                console.log("Markdown file path:", filePath);
+                console.log("Base path for images:", markdownFileBasePath);
 
-    // Read the markdown file first
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      const content = e.target.result;
-      markdownTextArea.value = content;
+                // Read the markdown file first
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const content = e.target.result;
+                    markdownTextArea.value = content;
 
-      // Extract image references from the markdown content
-      const imageRefs = extractImageReferences(content);
+                    // Extract image references from the markdown content
+                    const imageRefs = extractImageReferences(content);
 
-      if (imageRefs.length > 0) {
-        console.log(`Found ${imageRefs.length} image references:`, imageRefs);
+                    if (imageRefs.length > 0) {
+                        console.log(`Found ${imageRefs.length} image references:`, imageRefs);
 
-        // Ask user to select the image files referenced in the markdown
-        const imageInput = document.createElement("input");
-        imageInput.type = "file";
-        imageInput.multiple = true;
-        imageInput.accept = "image/*";
+                        // Ask user to select the image files referenced in the markdown
+                        const imageInput = document.createElement("input");
+                        imageInput.type = "file";
+                        imageInput.multiple = true;
+                        imageInput.accept = "image/*";
 
-        // After reading the markdown, prompt for images
-        alert(
-          `Please select all ${imageRefs.length} image files referenced in your markdown document`
-        );
-        imageInput.click();
+                        // After reading the markdown, prompt for images
+                        alert(
+                            `Please select all ${imageRefs.length} image files referenced in your markdown document`
+                        );
+                        imageInput.click();
 
-        // Handle image file selection
-        imageInput.addEventListener("change", function (e) {
-          const selectedImages = e.target.files;
+                        // Handle image file selection
+                        imageInput.addEventListener("change", function(e) {
+                            const selectedImages = e.target.files;
 
-          // Clear previous image cache
-          imageFiles = {};
+                            // Clear previous image cache
+                            imageFiles = {};
 
-          // Process each selected image
-          for (let i = 0; i < selectedImages.length; i++) {
-            const imgFile = selectedImages[i];
-            const imgFileName = imgFile.name;
+                            // Process each selected image
+                            for (let i = 0; i < selectedImages.length; i++) {
+                                const imgFile = selectedImages[i];
+                                const imgFileName = imgFile.name;
 
-            // Create a blob URL for the image
-            const blobUrl = URL.createObjectURL(imgFile);
+                                // Create a blob URL for the image
+                                const blobUrl = URL.createObjectURL(imgFile);
 
-            // Store the mapping of filename to blob URL
-            imageFiles[imgFileName] = blobUrl;
-            console.log(`Loaded image: ${imgFileName} -> ${blobUrl}`);
-          }
+                                // Store the mapping of filename to blob URL
+                                imageFiles[imgFileName] = blobUrl;
+                                console.log(`Loaded image: ${imgFileName} -> ${blobUrl}`);
+                            }
 
-          // Process the markdown with the loaded images
-          processMarkdown();
-        });
-      } else {
-        // No images found, just process the markdown
-        processMarkdown();
-      }
-    };
-    reader.readAsText(file);
-  }
+                            // Process the markdown with the loaded images
+                            processMarkdown();
+                        });
+                    } else {
+                        // No images found, just process the markdown
+                        processMarkdown();
+                    }
+                };
+                reader.readAsText(file);
+            }
 
-  // Function to extract image references from markdown content
-  function extractImageReferences(markdownContent) {
-    const imageRefs = [];
+            // Function to extract image references from markdown content
+            function extractImageReferences(markdownContent) {
+                const imageRefs = [];
 
-    // Regular expression to match markdown image syntax: ![alt](path)
-    const imageRegex = /!\[(.*?)\]\((.*?)\)/g;
-    let match;
+                // Regular expression to match markdown image syntax: ![alt](path)
+                const imageRegex = /!\[(.*?)\]\((.*?)\)/g;
+                let match;
 
-    while ((match = imageRegex.exec(markdownContent)) !== null) {
-      const imagePath = match[2];
+                while ((match = imageRegex.exec(markdownContent)) !== null) {
+                    const imagePath = match[2];
 
-      // Skip external URLs
-      if (!imagePath.match(/^(https?:\/\/|data:|file:|\/)/)) {
-        // Extract just the filename if there's a path
-        const fileName = imagePath.includes("/")
-          ? imagePath.substring(imagePath.lastIndexOf("/") + 1)
-          : imagePath;
+                    // Skip external URLs
+                    if (!imagePath.match(/^(https?:\/\/|data:|file:|\/)/)) {
+                        // Extract just the filename if there's a path
+                        const fileName = imagePath.includes("/") ?
+                            imagePath.substring(imagePath.lastIndexOf("/") + 1) :
+                            imagePath;
 
-        imageRefs.push({
-          path: imagePath,
-          fileName: fileName,
-        });
-      }
-    }
+                        imageRefs.push({
+                            path: imagePath,
+                            fileName: fileName,
+                        });
+                    }
+                }
 
-    return imageRefs;
-  }
+                return imageRefs;
+            }
 
-  function processMarkdown() {
-    markdownContent = markdownTextArea.value.trim();
+            function processMarkdown() {
+                markdownContent = markdownTextArea.value.trim();
 
-    if (!markdownContent) {
-      alert("Please enter or upload markdown content");
-      return;
-    }
+                if (!markdownContent) {
+                    alert("Please enter or upload markdown content");
+                    return;
+                }
 
-    // Render markdown
-    markdownPreview.innerHTML = marked.parse(markdownContent);
+                // Render markdown
+                markdownPreview.innerHTML = marked.parse(markdownContent);
 
-    // Find all headings in the rendered markdown
-    findHeadings();
+                // Find all headings in the rendered markdown
+                findHeadings();
 
-    // Show tools section
-    toolsSection.style.display = "block";
+                // Show tools section
+                toolsSection.style.display = "block";
 
-    // Reset crop points and export sections
-    cropPoints = [];
-    activeHeadingLevel = null;
+                // Reset crop points and export sections
+                cropPoints = [];
+                activeHeadingLevel = null;
 
-    // Clear active class from all buttons
-    h1LevelBtn.classList.remove("active");
-    h2LevelBtn.classList.remove("active");
-    h3LevelBtn.classList.remove("active");
+                // Clear active class from all buttons
+                h1LevelBtn.classList.remove("active");
+                h2LevelBtn.classList.remove("active");
+                h3LevelBtn.classList.remove("active");
 
-    // Add default crop point at the beginning
-    addCropPoint();
+                // Add default crop point at the beginning
+                addCropPoint();
 
-    // Update export sections
-    updateExportSections();
-  }
+                // Update export sections
+                updateExportSections();
+            }
 
-  function findHeadings() {
-    headings = [];
-    const headingElements = markdownPreview.querySelectorAll(
-      "h1, h2, h3, h4, h5, h6"
-    );
+            function findHeadings() {
+                headings = [];
+                const headingElements = markdownPreview.querySelectorAll(
+                    "h1, h2, h3, h4, h5, h6"
+                );
 
-    // Add beginning of document as first option
-    headings.push({
-      element: markdownPreview.firstChild,
-      text: "Beginning of document",
-      level: 0,
-      index: 0,
-    });
+                // Add beginning of document as first option
+                headings.push({
+                    element: markdownPreview.firstChild,
+                    text: "Beginning of document",
+                    level: 0,
+                    index: 0,
+                });
 
-    // Add all headings
-    headingElements.forEach((el, index) => {
-      const level = parseInt(el.tagName.substring(1));
-      headings.push({
-        element: el,
-        text: el.textContent,
-        level: level,
-        index: index + 1,
-      });
+                // Add all headings
+                headingElements.forEach((el, index) => {
+                    const level = parseInt(el.tagName.substring(1));
+                    headings.push({
+                        element: el,
+                        text: el.textContent,
+                        level: level,
+                        index: index + 1,
+                    });
 
-      // Add click event and crop indicator to each heading
-      addHeadingClickEvent(el, index + 1);
-    });
+                    // Add click event and crop indicator to each heading
+                    addHeadingClickEvent(el, index + 1);
+                });
 
-    // Add end of document as last option
-    headings.push({
-      element: null,
-      text: "End of document",
-      level: 0,
-      index: headings.length,
-    });
-  }
+                // Add end of document as last option
+                headings.push({
+                    element: null,
+                    text: "End of document",
+                    level: 0,
+                    index: headings.length,
+                });
+            }
 
-  function addHeadingClickEvent(headingElement, headingIndex) {
-    // Add crop indicator
-    const cropIndicator = document.createElement("span");
-    cropIndicator.className = "crop-indicator";
-    cropIndicator.innerHTML = "✂️";
-    cropIndicator.title = "Click to add crop point";
-    headingElement.style.position = "relative";
-    headingElement.appendChild(cropIndicator);
+            function addHeadingClickEvent(headingElement, headingIndex) {
+                // Add crop indicator
+                const cropIndicator = document.createElement("span");
+                cropIndicator.className = "crop-indicator";
+                cropIndicator.innerHTML = "✂️";
+                cropIndicator.title = "Click to add crop point";
+                headingElement.style.position = "relative";
+                headingElement.appendChild(cropIndicator);
 
-    // Add click event to heading
-    headingElement.addEventListener("click", (e) => {
-      // Add crop point at this heading
-      addCropPointAtHeading(headingIndex);
-      e.stopPropagation();
-    });
-  }
+                // Add click event to heading
+                headingElement.addEventListener("click", (e) => {
+                    // Add crop point at this heading
+                    addCropPointAtHeading(headingIndex);
+                    e.stopPropagation();
+                });
+            }
 
-  function addCropPointAtHeading(headingIndex) {
-    // Check if this crop point already exists
-    const existingPoint = cropPoints.find(
-      (point) => point.headingIndex === headingIndex
-    );
-    if (existingPoint) {
-      // Remove it instead
-      const pointIndex = cropPoints.indexOf(existingPoint);
-      removeCropPoint(pointIndex);
-      return;
-    }
+            function addCropPointAtHeading(headingIndex) {
+                // Check if this crop point already exists
+                const existingPoint = cropPoints.find(
+                    (point) => point.headingIndex === headingIndex
+                );
+                if (existingPoint) {
+                    // Remove it instead
+                    const pointIndex = cropPoints.indexOf(existingPoint);
+                    removeCropPoint(pointIndex);
+                    return;
+                }
 
-    // Add the crop point
-    cropPoints.push({
-      headingIndex: headingIndex,
-    });
+                // Add the crop point
+                cropPoints.push({
+                    headingIndex: headingIndex,
+                });
 
-    // Update the UI
-    updateCropPointsUI();
-    updateExportSections();
+                // Update the UI
+                updateCropPointsUI();
+                updateExportSections();
 
-    // Highlight the heading
-    if (headingIndex > 0 && headingIndex < headings.length - 1) {
-      const heading = headings[headingIndex].element;
-      heading.classList.add("crop-point-active");
-    }
-  }
+                // Highlight the heading
+                if (headingIndex > 0 && headingIndex < headings.length - 1) {
+                    const heading = headings[headingIndex].element;
+                    heading.classList.add("crop-point-active");
+                }
+            }
 
-  function updateCropPointsUI() {
-    // Clear the container
-    cropPointsContainer.innerHTML = "";
+            function updateCropPointsUI() {
+                // Clear the container
+                cropPointsContainer.innerHTML = "";
 
-    // Sort crop points by heading index
-    cropPoints.sort((a, b) => a.headingIndex - b.headingIndex);
+                // Sort crop points by heading index
+                cropPoints.sort((a, b) => a.headingIndex - b.headingIndex);
 
-    // Add each crop point to the UI
-    cropPoints.forEach((point, index) => {
-      const cropPointDiv = document.createElement("div");
-      cropPointDiv.className = "crop-point";
-      cropPointDiv.innerHTML = `
+                // Add each crop point to the UI
+                cropPoints.forEach((point, index) => {
+                            const cropPointDiv = document.createElement("div");
+                            cropPointDiv.className = "crop-point";
+                            cropPointDiv.innerHTML = `
                 <select id="crop-point-${index}" class="crop-point-select">
                     ${headings
                       .map((h, i) => {
@@ -773,11 +773,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function downloadAllImages() {
     // Check if there are any images to download
-    const resultImages = document.querySelectorAll(".result-item canvas");
-    if (resultImages.length === 0) {
+    const resultItems = document.querySelectorAll(".result-item");
+    if (resultItems.length === 0) {
       alert("No images to download. Please export sections first.");
       return;
     }
+
+    // Disable the download button and show progress
+    const downloadBtn = document.getElementById("download-all-btn");
+    const originalText = downloadBtn.textContent;
+    downloadBtn.disabled = true;
+    downloadBtn.textContent = "Preparing download...";
 
     // Create a zip file using JSZip
     const zip = new JSZip();
@@ -785,37 +791,106 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Add all images to the zip file
     let processedCount = 0;
-    resultImages.forEach((canvas, index) => {
-      // Get the section name from the previous sibling of the canvas
-      const sectionNameEl = canvas
-        .closest(".result-item")
-        .querySelector(".export-section-name");
-      let fileName = `section-${index + 1}.png`;
+    let totalCanvases = 0;
+
+    // First, count total canvases to process
+    resultItems.forEach((resultItem) => {
+      const canvas = resultItem.querySelector("canvas");
+      if (canvas) {
+        totalCanvases++;
+      }
+    });
+
+    if (totalCanvases === 0) {
+      alert("No canvas images found to download. Please export sections first.");
+      return;
+    }
+
+    // Get current timestamp for consistent naming
+    const timestamp = new Date().toISOString().slice(0, 19).replace(/[:-]/g, "");
+    
+    resultItems.forEach((resultItem, index) => {
+      const canvas = resultItem.querySelector("canvas");
+      if (!canvas) return;
+
+      // Get the section name from the result item
+      const sectionNameEl = resultItem.querySelector(".export-section-name");
+      let fileName = `markdown-section-${String(index + 1).padStart(2, '0')}.png`;
 
       if (sectionNameEl) {
-        // Create a safe filename from the section name
+        // Create a formatted filename from the section name
         const sectionName = sectionNameEl.textContent.trim();
-        fileName = `${sectionName
-          .replace(/[^a-z0-9]/gi, "-")
-          .toLowerCase()}.png`;
+        
+        // Extract heading titles for better naming
+        const headingMatch = sectionName.match(/^(.+?)\s+to\s+(.+)$/);
+        if (headingMatch) {
+          const [, startHeading, endHeading] = headingMatch;
+          // Clean up heading text for filename
+          const cleanStartHeading = startHeading
+            .replace(/^(Section \d+:\s*)?/, '') // Remove "Section X:" prefix
+            .replace(/[^\w\s-]/g, '') // Remove special characters except word chars, spaces, hyphens
+            .replace(/\s+/g, '-') // Replace spaces with hyphens
+            .toLowerCase()
+            .substring(0, 50); // Limit length
+          
+          const cleanEndHeading = endHeading
+            .replace(/[^\w\s-]/g, '') // Remove special characters except word chars, spaces, hyphens
+            .replace(/\s+/g, '-') // Replace spaces with hyphens
+            .toLowerCase()
+            .substring(0, 50); // Limit length
+          
+          fileName = `${String(index + 1).padStart(2, '0')}-${cleanStartHeading}-to-${cleanEndHeading}.png`;
+        } else {
+          // Fallback: use the entire section name
+          const cleanSectionName = sectionName
+            .replace(/^(Section \d+:\s*)?/, '') // Remove "Section X:" prefix
+            .replace(/[^\w\s-]/g, '') // Remove special characters
+            .replace(/\s+/g, '-') // Replace spaces with hyphens
+            .toLowerCase()
+            .substring(0, 100); // Limit length
+          
+          fileName = `${String(index + 1).padStart(2, '0')}-${cleanSectionName}.png`;
+        }
+        
+        // Ensure filename doesn't end with multiple hyphens
+        fileName = fileName.replace(/-+/g, '-').replace(/-\.png$/, '.png');
       }
 
       // Convert canvas to blob
       canvas.toBlob((blob) => {
-        imgFolder.file(fileName, blob);
+        if (blob) {
+          imgFolder.file(fileName, blob);
+        }
         processedCount++;
 
         // When all images are processed, generate and download the zip
-        if (processedCount === resultImages.length) {
+        if (processedCount === totalCanvases) {
+          downloadBtn.textContent = "Creating ZIP file...";
+          
           zip.generateAsync({ type: "blob" }).then((content) => {
-            // Create download link
+            // Create download link with formatted filename
             const link = document.createElement("a");
             link.href = URL.createObjectURL(content);
-            link.download = "markdown-images.zip";
+            link.download = `markdown-cropper-export-${timestamp}.zip`;
             link.click();
 
             // Clean up
             URL.revokeObjectURL(link.href);
+            
+            // Reset button state
+            downloadBtn.disabled = false;
+            downloadBtn.textContent = originalText;
+            
+            // Show success message
+            alert(`Successfully downloaded ${totalCanvases} images as a ZIP file!`);
+          }).catch((error) => {
+            console.error("Error creating ZIP file:", error);
+            
+            // Reset button state
+            downloadBtn.disabled = false;
+            downloadBtn.textContent = originalText;
+            
+            alert("Error creating ZIP file. Please try again.");
           });
         }
       }, "image/png");
@@ -955,8 +1030,31 @@ document.addEventListener("DOMContentLoaded", () => {
           const downloadBtn = document.createElement("button");
           downloadBtn.textContent = "Download PNG";
           downloadBtn.addEventListener("click", () => {
+            // Generate formatted filename for individual download
+            const timestamp = new Date().toISOString().slice(0, 19).replace(/[:-]/g, "");
+            let fileName = `markdown-section-${startHeadingIndex}-to-${endHeadingIndex}-${timestamp}.png`;
+            
+            // Create a better filename from heading text
+            if (startHeading && endHeading) {
+              const cleanStartHeading = startHeading.text
+                .replace(/[^\w\s-]/g, '') // Remove special characters
+                .replace(/\s+/g, '-') // Replace spaces with hyphens
+                .toLowerCase()
+                .substring(0, 50); // Limit length
+              
+              const cleanEndHeading = endHeading.text
+                .replace(/[^\w\s-]/g, '') // Remove special characters
+                .replace(/\s+/g, '-') // Replace spaces with hyphens
+                .toLowerCase()
+                .substring(0, 50); // Limit length
+              
+              fileName = `${cleanStartHeading}-to-${cleanEndHeading}-${timestamp}.png`;
+              // Clean up multiple hyphens
+              fileName = fileName.replace(/-+/g, '-').replace(/^-|-$/g, '');
+            }
+            
             const link = document.createElement("a");
-            link.download = `markdown-section-${startHeadingIndex}-${endHeadingIndex}.png`;
+            link.download = fileName;
             link.href = canvas.toDataURL("image/png");
             link.click();
           });
