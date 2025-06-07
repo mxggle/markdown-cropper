@@ -2,7 +2,9 @@
  * 5 Beautiful themes inspired by popular platforms
  */
 
+
 /* Base styles for all themes */
+
 .markdown-content {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     line-height: 1.6;
@@ -13,7 +15,9 @@
     transition: all 0.3s ease;
 }
 
+
 /* Common elements styling */
+
 .markdown-content img {
     max-width: 100%;
     border-radius: 4px;
@@ -67,7 +71,9 @@
     opacity: 0.2;
 }
 
+
 /* Theme 1: Twitter/X Inspired */
+
 .theme-twitter {
     background-color: #ffffff;
     color: #0f1419;
@@ -128,7 +134,9 @@
     border-bottom: 1px solid #e6ecf0;
 }
 
+
 /* Theme 2: LinkedIn Inspired */
+
 .theme-linkedin {
     background-color: #f3f6f8;
     color: #333333;
@@ -190,7 +198,9 @@
     border-bottom: 1px solid #e0e0e0;
 }
 
+
 /* Theme 3: Medium Inspired */
+
 .theme-medium {
     background-color: #ffffff;
     color: rgba(0, 0, 0, 0.84);
@@ -262,7 +272,9 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
 
+
 /* Theme 4: GitHub Inspired */
+
 .theme-github {
     background-color: #ffffff;
     color: #24292e;
@@ -329,7 +341,9 @@
     border: 1px solid #dfe2e5;
 }
 
+
 /* Theme 5: Dark Mode (Discord/Slack Inspired) */
+
 .theme-dark {
     background-color: #36393f;
     color: #dcddde;
@@ -392,7 +406,9 @@
     border-bottom: 1px solid #4f545c;
 }
 
+
 /* Theme 6: Pinterest Inspired */
+
 .theme-pinterest {
     background-color: #ffffff;
     color: #333333;
@@ -470,7 +486,9 @@
     border-bottom: 1px solid #e6e6e6;
 }
 
+
 /* Theme 7: Instagram Inspired */
+
 .theme-instagram {
     background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
     background-color: #ffffff;
@@ -554,7 +572,9 @@
     border-bottom: 1px solid #dbdbdb;
 }
 
+
 /* Theme 8: Apple Notes Inspired */
+
 .theme-apple-notes {
     background-color: #f7f7f5;
     color: #1c1c1e;
@@ -628,7 +648,9 @@
     border-bottom: 1px solid #e2e2e2;
 }
 
+
 /* Theme 9: Notion Inspired */
+
 .theme-notion {
     background-color: #ffffff;
     color: #37352f;
@@ -710,7 +732,9 @@
     padding: 6px 12px;
 }
 
+
 /* Theme 10: Retro Terminal */
+
 .theme-terminal {
     background-color: #0c0c0c;
     color: #33ff33;
@@ -794,4 +818,562 @@
 
 .theme-terminal table td {
     border-bottom: 1px solid rgba(51, 255, 51, 0.3);
+}
+
+
+/* Theme: Gym/Fitness - Modern social media style for fitness content */
+
+.theme-gym {
+    background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+    color: #2c2c2c;
+    border: none;
+    border-radius: 20px;
+    position: relative;
+    /* overflow: hidden; */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif;
+    font-weight: 400;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 32px;
+    line-height: 1.6;
+}
+
+.theme-gym h1,
+.theme-gym h2,
+.theme-gym h3,
+.theme-gym h4,
+.theme-gym h5,
+.theme-gym h6 {
+    color: #1a1a1a;
+    font-weight: 700;
+    margin-top: 2em;
+    margin-bottom: 0.8em;
+    position: relative;
+    z-index: 2;
+    line-height: 1.3;
+    letter-spacing: -0.025em;
+}
+
+.theme-gym h1 {
+    font-size: 2.2em;
+    color: #ff6b6b;
+    margin-bottom: 1.2em;
+    margin-top: 0;
+    font-weight: 800;
+}
+
+.theme-gym h2 {
+    font-size: 1.6em;
+    color: #333333;
+    font-weight: 700;
+    margin-top: 2.5em;
+}
+
+.theme-gym h3 {
+    font-size: 1.3em;
+    color: #555555;
+    font-weight: 600;
+    margin-top: 2em;
+}
+
+.theme-gym p {
+    margin-bottom: 1.5em;
+    line-height: 1.7;
+    font-size: 1.05em;
+    position: relative;
+    z-index: 2;
+    color: #444444;
+}
+
+.theme-gym strong {
+    color: #ff6b6b;
+    font-weight: 700;
+}
+
+.theme-gym em {
+    color: #666666;
+    font-style: italic;
+    font-weight: 500;
+}
+
+.theme-gym a {
+    color: #ff6b6b;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid transparent;
+}
+
+.theme-gym a:hover {
+    color: #ff5252;
+    border-bottom-color: #ff5252;
+}
+
+.theme-gym blockquote {
+    border: none;
+    background: rgba(255, 107, 107, 0.05);
+    padding: 24px 28px;
+    margin: 32px 0;
+    border-radius: 16px;
+    font-style: italic;
+    font-weight: 500;
+    color: #444444;
+    position: relative;
+    z-index: 2;
+    border-left: 4px solid #ff6b6b;
+}
+
+.theme-gym blockquote::before {
+    display: none;
+}
+
+.theme-gym code {
+    background: #f8f8f8;
+    color: #e91e63;
+    padding: 0.3em 0.6em;
+    border-radius: 8px;
+    font-family: 'SF Mono', Consolas, monospace;
+    font-weight: 500;
+    font-size: 0.9em;
+}
+
+.theme-gym pre {
+    background: #f8f8f8;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 20px;
+    overflow-x: auto;
+    position: relative;
+    z-index: 2;
+}
+
+.theme-gym pre code {
+    background: transparent;
+    border: none;
+    padding: 0;
+    color: #333333;
+}
+
+.theme-gym ul,
+.theme-gym ol {
+    padding-left: 24px;
+    margin-bottom: 1.5em;
+    position: relative;
+    z-index: 2;
+}
+
+.theme-gym li {
+    margin-bottom: 0.6em;
+    color: #444444;
+    line-height: 1.6;
+}
+
+.theme-gym li::marker {
+    color: #ff6b6b;
+}
+
+.theme-gym table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 32px 0;
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+.theme-gym table th {
+    background: #ff6b6b;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 16px 20px;
+    text-align: left;
+    border: none;
+    font-size: 0.95em;
+}
+
+.theme-gym table td {
+    padding: 14px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    color: #444444;
+}
+
+.theme-gym table tr:hover {
+    background: #fafafa;
+}
+
+.theme-gym table tr:last-child td {
+    border-bottom: none;
+}
+
+.theme-gym hr {
+    height: 1px;
+    background: #e0e0e0;
+    border: 0;
+    margin: 32px 0;
+    position: relative;
+    z-index: 2;
+}
+
+.theme-gym img {
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    margin: 1.5em 0;
+}
+
+
+/* Clean checkbox styling */
+
+.theme-gym input[type="checkbox"] {
+    accent-color: #ff6b6b;
+    margin-right: 8px;
+    transform: scale(1.1);
+}
+
+
+/* Social media optimized spacing */
+
+.theme-gym h1:first-child {
+    margin-top: 0;
+}
+
+.theme-gym>*:last-child {
+    margin-bottom: 0;
+}
+
+
+/* Responsive design for mobile sharing */
+
+@media (max-width: 600px) {
+    .theme-gym {
+        padding: 24px 20px;
+        border-radius: 16px;
+    }
+    .theme-gym h1 {
+        font-size: 1.8em;
+        line-height: 1.2;
+    }
+    .theme-gym h2 {
+        font-size: 1.4em;
+    }
+    .theme-gym h3 {
+        font-size: 1.2em;
+    }
+    .theme-gym p {
+        font-size: 1em;
+    }
+    .theme-gym table th,
+    .theme-gym table td {
+        padding: 12px 16px;
+        font-size: 0.9em;
+    }
+    .theme-gym blockquote {
+        padding: 20px;
+        margin: 24px 0;
+    }
+}
+
+
+/* Theme: Energy - Vibrant social media fitness theme */
+
+.theme-energy {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+    color: #1a1a1a;
+    border: none;
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif;
+    font-weight: 400;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    padding: 40px;
+    line-height: 1.6;
+}
+
+.theme-energy::before {
+    display: none;
+}
+
+.theme-energy h1,
+.theme-energy h2,
+.theme-energy h3,
+.theme-energy h4,
+.theme-energy h5,
+.theme-energy h6 {
+    color: #1a1a1a;
+    font-weight: 800;
+    margin-top: 2em;
+    margin-bottom: 1em;
+    position: relative;
+    z-index: 2;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    border: none;
+    border-bottom: none;
+    background: none;
+    background-color: transparent;
+}
+
+.theme-energy h1 {
+    font-size: 2.4em;
+    color: #ff4757;
+    margin-top: 0;
+    margin-bottom: 1.5em;
+    font-weight: 900;
+    /* text-transform: uppercase; */
+    letter-spacing: -0.02em;
+    background: none;
+    background-color: transparent;
+}
+
+.theme-energy h2 {
+    font-size: 1.8em;
+    color: #ff6b35;
+    font-weight: 800;
+    margin-top: 2.5em;
+    /* text-transform: uppercase; */
+    letter-spacing: -0.01em;
+}
+
+.theme-energy h3 {
+    font-size: 1.4em;
+    color: #2d3748;
+    font-weight: 700;
+    margin-top: 2em;
+}
+
+.theme-energy h4 {
+    font-size: 1.2em;
+    color: #4a5568;
+    font-weight: 700;
+    margin-top: 1.8em;
+}
+
+.theme-energy p {
+    margin-bottom: 1.6em;
+    line-height: 1.7;
+    font-size: 1.1em;
+    position: relative;
+    z-index: 2;
+    color: #2d3748;
+    font-weight: 500;
+}
+
+.theme-energy strong {
+    color: #ff4757;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.theme-energy em {
+    color: #ff6b35;
+    font-style: italic;
+    font-weight: 600;
+}
+
+.theme-energy a {
+    color: #ff4757;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.2s ease;
+    border-bottom: 2px solid #ff4757;
+    padding-bottom: 1px;
+}
+
+.theme-energy a:hover {
+    color: #ff3742;
+    border-bottom-color: #ff3742;
+    transform: translateY(-1px);
+}
+
+.theme-energy blockquote {
+    border: none;
+    background: linear-gradient(135deg, rgba(255, 71, 87, 0.1), rgba(255, 107, 53, 0.1));
+    padding: 32px 36px;
+    margin: 32px 0;
+    border-radius: 20px;
+    font-style: italic;
+    font-weight: 600;
+    color: #2d3748;
+    position: relative;
+    z-index: 2;
+    border-left: 6px solid #ff4757;
+    font-size: 1.1em;
+}
+
+.theme-energy blockquote::before {
+    content: '💪';
+    font-size: 2em;
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    opacity: 0.3;
+}
+
+.theme-energy code {
+    background: linear-gradient(135deg, #ff4757, #ff6b35);
+    color: #ffffff;
+    padding: 0.4em 0.8em;
+    border-radius: 12px;
+    font-family: 'SF Mono', Consolas, monospace;
+    font-weight: 600;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.theme-energy pre {
+    background: #f7fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 24px;
+    overflow-x: auto;
+    position: relative;
+    z-index: 2;
+}
+
+.theme-energy pre code {
+    background: transparent;
+    border: none;
+    padding: 0;
+    color: #2d3748;
+    text-transform: none;
+    letter-spacing: normal;
+    font-weight: 500;
+}
+
+.theme-energy ul,
+.theme-energy ol {
+    padding-left: 28px;
+    margin-bottom: 1.8em;
+    position: relative;
+    z-index: 2;
+}
+
+.theme-energy li {
+    margin-bottom: 0.8em;
+    color: #2d3748;
+    line-height: 1.7;
+    font-weight: 500;
+}
+
+.theme-energy li::marker {
+    color: #ff4757;
+    font-weight: 800;
+}
+
+.theme-energy table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 36px 0;
+    background: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.theme-energy table th {
+    background: linear-gradient(135deg, #ff4757, #ff6b35);
+    color: #ffffff;
+    font-weight: 800;
+    padding: 20px 24px;
+    text-align: left;
+    border: none;
+    font-size: 1em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.theme-energy table td {
+    padding: 18px 24px;
+    border-bottom: 1px solid #e2e8f0;
+    color: #2d3748;
+    font-weight: 500;
+}
+
+.theme-energy table tr:hover {
+    background: rgba(255, 71, 87, 0.05);
+    transform: translateY(-1px);
+    transition: all 0.2s ease;
+}
+
+.theme-energy table tr:last-child td {
+    border-bottom: none;
+}
+
+.theme-energy hr {
+    height: 3px;
+    background: linear-gradient(90deg, #ff4757, #ff6b35, #ffa726);
+    border: 0;
+    margin: 48px 0;
+    position: relative;
+    z-index: 2;
+    border-radius: 3px;
+}
+
+.theme-energy img {
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    margin: 2em 0;
+    transition: transform 0.2s ease;
+}
+
+.theme-energy img:hover {
+    transform: translateY(-2px);
+}
+
+
+/* Energy checkbox styling */
+
+.theme-energy input[type="checkbox"] {
+    accent-color: #ff4757;
+    margin-right: 12px;
+    transform: scale(1.2);
+}
+
+
+/* Social media optimized spacing */
+
+.theme-energy h1:first-child {
+    margin-top: 0;
+}
+
+.theme-energy>*:last-child {
+    margin-bottom: 0;
+}
+
+
+/* Responsive design for mobile energy */
+
+@media (max-width: 600px) {
+    .theme-energy {
+        padding: 28px 24px;
+        border-radius: 20px;
+    }
+    .theme-energy h1 {
+        font-size: 2em;
+        line-height: 1.1;
+    }
+    .theme-energy h2 {
+        font-size: 1.5em;
+    }
+    .theme-energy h3 {
+        font-size: 1.3em;
+    }
+    .theme-energy p {
+        font-size: 1em;
+    }
+    .theme-energy table th,
+    .theme-energy table td {
+        padding: 14px 18px;
+        font-size: 0.9em;
+    }
+    .theme-energy blockquote {
+        padding: 24px 28px;
+        margin: 28px 0;
+    }
 }

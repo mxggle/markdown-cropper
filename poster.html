@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>语言学习健身房 - 小红书封面</title>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100;300;400;700;900&family=Noto+Sans+JP:wght@100;300;400;700;900&family=Roboto:wght@100;300;400;700;900&display=swap">
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: linear-gradient(135deg, #1a2a3a, #0d1117);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #e0e0e0;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .design-header {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .design-header h1 {
+            font-weight: 300;
+            font-size: 2.5rem;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            color: #f5f5f5;
+            text-transform: uppercase;
+        }
+
+        .design-header p {
+            font-weight: 100;
+            color: #aaa;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .cover-container {
+            position: relative;
+            width: 600px;
+            height: 800px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+        }
+
+        .cover {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 50px;
+        }
+
+        /* 语言装饰元素 */
+
+        .language-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            grid-template-rows: repeat(10, 1fr);
+            opacity: 1;
+            z-index: 1;
+        }
+
+        .language-cell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #333;
+            transform: rotate(-45deg);
+        }
+
+        /* 语言切换装饰 */
+
+        .language-switch {
+            position: absolute;
+            top: 50px;
+            right: 50px;
+            display: flex;
+            gap: 15px;
+            z-index: 4;
+        }
+
+        .lang-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(200, 200, 200, 0.2);
+            color: #444;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: rgba(50, 50, 50, 0.3);
+            transform: scale(1.1);
+        }
+
+        /* 语言关键词装饰 */
+
+        .language-keywords {
+            position: absolute;
+            bottom: 60px;
+            right: 40px;
+            z-index: 4;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
+        }
+
+        .lang-keyword {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: rgba(50, 50, 50, 0.3);
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            letter-spacing: 2px;
+        }
+
+        /* 主要内容 */
+
+        .content {
+            position: relative;
+            z-index: 3;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .main-title {
+            font-size: 5.8rem;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 35px;
+            letter-spacing: -1px;
+            color: #222;
+        }
+
+        .main-title span {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .main-title .japanese {
+            font-family: 'Noto Sans JP', sans-serif;
+            font-weight: 700;
+            font-size: 4.2rem;
+            color: #444;
+            margin-top: 10px;
+        }
+
+        .main-title .english {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 800;
+            font-size: 4.5rem;
+            color: #333;
+            letter-spacing: -1px;
+        }
+
+        .sub-title {
+            font-size: 1.8rem;
+            font-weight: 300;
+            color: #555;
+            margin-bottom: 60px;
+            max-width: 85%;
+            line-height: 1.5;
+            padding-left: 5px;
+        }
+
+        .highlight {
+            font-size: 3.2rem;
+            font-weight: 700;
+            color: #222;
+            letter-spacing: 4px;
+            margin-bottom: 50px;
+            padding: 5px 0;
+            position: relative;
+            display: inline-block;
+        }
+
+        .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #222, transparent);
+        }
+
+        .author {
+            font-size: 1.6rem;
+            font-weight: 400;
+            color: #666;
+            letter-spacing: 2px;
+            margin-top: auto;
+        }
+
+        .tagline {
+            font-size: 1.3rem;
+            font-weight: 300;
+            color: #777;
+            letter-spacing: 3px;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        .handwritten-circle {
+            position: relative;
+            display: inline-block;
+        }
+
+        .handwritten-circle::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: -20px;
+            right: 100px;
+            bottom: -15px;
+            border: 3px solid #444;
+            border-radius: 50%;
+            transform: rotate(-2deg);
+            opacity: 0.7;
+            z-index: 2;
+            background: none;
+            box-shadow: 0 0 0 1px rgba(68, 68, 68, 0.2);
+        }
+
+        .handwritten-circle::after {
+            content: '';
+            position: absolute;
+            top: -12px;
+            left: -18px;
+            right: 184px;
+            bottom: -12px;
+            border: 2px solid #555;
+            border-radius: 50%;
+            transform: rotate(1deg);
+            opacity: 0.4;
+            z-index: 1;
+            background: none;
+        }
+
+        .controls {
+            margin-top: 35px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #3a506b, #1c2541);
+            color: white;
+            border: none;
+            padding: 14px 35px;
+            font-size: 1.1rem;
+            font-weight: 400;
+            cursor: pointer;
+            border-radius: 2px;
+            letter-spacing: 1.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #2c3e50, #0d1b2a);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #4a9fe3, #2a6ebf);
+        }
+
+        .btn-save:hover {
+            background: linear-gradient(135deg, #3a8fd3, #1a5eaf);
+        }
+
+        .design-details {
+            width: 400px;
+            padding: 30px;
+            background: rgba(25, 35, 45, 0.7);
+            border-radius: 2px;
+            border: 1px solid rgba(100, 100, 100, 0.2);
+        }
+
+        .details-title {
+            font-size: 1.6rem;
+            font-weight: 300;
+            margin-bottom: 25px;
+            color: #f5f5f5;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .details-list {
+            list-style: none;
+        }
+
+        .details-list li {
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            font-weight: 300;
+            color: #ddd;
+            display: flex;
+        }
+
+        .details-list li:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            width: 120px;
+            font-weight: 400;
+            color: #a0aec0;
+        }
+
+        .detail-value {
+            flex: 1;
+            font-weight: 300;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        .feature:first-child {
+            margin-top: 0;
+        }
+
+        .feature-icon {
+            width: 16px;
+            height: 16px;
+            background: rgba(100, 150, 200, 0.3);
+            margin-right: 12px;
+            border-radius: 1px;
+        }
+
+        @media (max-width: 1100px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .design-details {
+                width: 600px;
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .cover-container {
+                width: 100%;
+                height: auto;
+                aspect-ratio: 3/4;
+            }
+
+            .cover {
+                padding: 25px;
+            }
+
+            .main-title {
+                font-size: 3.8rem;
+            }
+
+            .main-title .japanese {
+                font-size: 2.8rem;
+            }
+
+            .main-title .english {
+                font-size: 3rem;
+            }
+
+            .sub-title {
+                font-size: 1.4rem;
+            }
+
+            .highlight {
+                font-size: 2.2rem;
+            }
+
+            .design-details {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="design-header">
+        <h1>语言学习健身房封面设计</h1>
+        <p>融合健身指导与中日英三语学习 | 极简主义 | 多语言排版 | 功能主义美学</p>
+    </div>
+
+    <div class="container">
+        <div class="cover-container">
+            <div class="cover" id="cover">
+                <!-- 语言网格背景 -->
+                <div class="language-grid" id="languageGrid"></div>
+
+                <!-- 语言关键词 -->
+                <div class="language-keywords">
+                    <div class="lang-keyword">トレーニング</div>
+                    <div class="lang-keyword">Workout</div>
+                    <div class="lang-keyword">健身</div>
+                </div>
+
+                <!-- 主要内容 -->
+                <div class="content">
+                    <div class="main-title">
+                        <span>🇯🇵🇨🇳🇺🇸三语健身房</span>
+                        <span class="japanese">中日英三ヶ国語ジム</span>
+                        <span class="english">TRILINGUAL GYM</span>
+                        <span class="english handwritten-circle"><span>💪 练胸相关</span></span>
+                    </div>
+
+                    <div class="author">陈修在日本</div>
+                    <div class="tagline">用嘴称霸健身房</div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="btn btn-save" id="saveBtn">保存封面图片</button>
+                <button class="btn" id="refreshBtn">刷新关键词</button>
+            </div>
+        </div>
+
+        <div class="design-details">
+            <h2 class="details-title">设计规范</h2>
+            <ul class="details-list">
+                <li>
+                    <span class="detail-label">设计理念</span>
+                    <span class="detail-value">健身与语言学习融合</span>
+                </li>
+                <li>
+                    <span class="detail-label">核心元素</span>
+                    <span class="detail-value">
+                        <div class="feature">
+                            <div class="feature-icon"></div>三语对照标题
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon"></div>语言切换UI
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon"></div>术语关键词装饰
+                        </div>
+                    </span>
+                </li>
+                <li>
+                    <span class="detail-label">语言支持</span>
+                    <span class="detail-value">
+                        <div class="feature">
+                            <div class="feature-icon"></div>中文 (Noto Sans SC)
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon"></div>日文 (Noto Sans JP)
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon"></div>英文 (Roboto)
+                        </div>
+                    </span>
+                </li>
+                <li>
+                    <span class="detail-label">排版系统</span>
+                    <span class="detail-value">主标题5.8rem / 副标题1.8rem / 关键词3.2rem</span>
+                </li>
+                <li>
+                    <span class="detail-label">负空间</span>
+                    <span class="detail-value">≥65% 留白区域</span>
+                </li>
+                <li>
+                    <span class="detail-label">色彩系统</span>
+                    <span class="detail-value">工业灰阶 + 语言标识色</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // 生成语言网格背景
+        function generateLanguageGrid() {
+            const grid = document.getElementById('languageGrid');
+            grid.innerHTML = '';
+
+            const characters = {
+                cn: ['健', '身', '语', '言', '学', '习', '胸', '肌', '训', '练'],
+                jp: ['ジ', 'ム', '語', '学', '習', '胸', '筋', 'トレ', 'ー', 'ニ'],
+                en: ['GYM', 'FIT', 'CHEST', 'LANG', 'LEARN', 'MUSC', 'TRAIN', 'BODY', 'TALK', 'WORK']
+            };
+
+            for (let i = 0; i < 100; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'language-cell';
+
+                // 随机选择语言
+                const lang = ['cn', 'jp', 'en'][Math.floor(Math.random() * 3)];
+                const charSet = characters[lang];
+                cell.textContent = charSet[Math.floor(Math.random() * charSet.length)];
+
+                // 随机旋转角度
+                const rotation = -45 + (Math.random() * 20 - 10);
+                cell.style.transform = `rotate(${rotation}deg)`;
+
+                // 随机透明度
+                cell.style.opacity = 0.05 + (Math.random() * 0.05);
+
+                grid.appendChild(cell);
+            }
+        }
+
+        // 语言切换功能
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // 刷新关键词功能
+        document.getElementById('refreshBtn').addEventListener('click', function () {
+            const cnKeywords = ['语言', '健身', '交流', '学习', '指导', '术语', '训练', '肌肉'];
+            const jpKeywords = ['会話', '学習', '指導', '用語', '練習', '筋肉', '交流', '言語'];
+            const enKeywords = ['TALK', 'LEARN', 'COACH', 'TERMS', 'TRAIN', 'MUSCLE', 'LIFT', 'BODY'];
+
+            const keywords = document.querySelectorAll('.lang-keyword');
+
+            keywords[0].textContent = jpKeywords[Math.floor(Math.random() * jpKeywords.length)];
+            keywords[1].textContent = enKeywords[Math.floor(Math.random() * enKeywords.length)];
+            keywords[2].textContent = cnKeywords[Math.floor(Math.random() * cnKeywords.length)];
+
+            // 重新生成语言网格
+            generateLanguageGrid();
+        });
+
+        // 保存为图片
+        document.getElementById('saveBtn').addEventListener('click', function () {
+            html2canvas(document.getElementById('cover')).then(canvas => {
+                const link = document.createElement('a');
+                link.download = '语言学习健身房-练胸篇.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        });
+
+        // 初始化
+        generateLanguageGrid();
+    </script>
+</body>
+
+</html>
